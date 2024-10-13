@@ -45,7 +45,7 @@ export default function RootLayout({
       {/* Main Content */}
       <div className="grow bg-blue-50">
         <DashboardHeader />
-        {children}
+        <div className="p-4">{children}</div>
       </div>
     </div>
   );
