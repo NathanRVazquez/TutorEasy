@@ -177,12 +177,13 @@ const TutorForm = () => {
               control={form.control}
               name={"concerns"}
               render={({ field }) => (
-                <FormItem className="w-full bg-white p-2 rounded-md">
+                <FormItem className="w-full min-h-96 bg-white p-2 rounded-md">
                   <FormControl>
                     <Input
                       type="text"
                       placeholder="Type any existing concerns here"
                       {...field}
+                      className="w-full min-h-96"
                     />
                   </FormControl>
                   <FormMessage />
@@ -193,7 +194,7 @@ const TutorForm = () => {
           <div className="flex justify-end mt-4">
             <Button
               type="submit"
-              className="bg-[#E8C945] text-white font-semibold drop-shadow-xl"
+              className="bg-[#E8C945] hover:bg-[#D38D30] text-white font-semibold drop-shadow-xl"
             >
               Submit
             </Button>
