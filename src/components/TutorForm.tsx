@@ -65,14 +65,14 @@ const TutorForm = () => {
 
   return (
     <Form {...form}>
-      <div className="bg-[#7BA696] rounded-md">
+      <div className="bg-[#7BA696] rounded-md p-4">
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="flex justify-around">
+          <div className="flex justify-around space-x-4">
             <FormField
               control={form.control}
               name={"name"}
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full bg-white p-2 rounded-md">
                   <FormControl>
                     <Select>
                       <SelectTrigger>
@@ -93,7 +93,7 @@ const TutorForm = () => {
               control={form.control}
               name={"shift"}
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full bg-white p-2 rounded-md">
                   <FormControl>
                     <Select>
                       <SelectTrigger>
@@ -114,7 +114,7 @@ const TutorForm = () => {
               control={form.control}
               name={"class_section"}
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full bg-white p-2 rounded-md">
                   <FormControl>
                     <Select>
                       <SelectTrigger>
@@ -136,7 +136,7 @@ const TutorForm = () => {
             control={form.control}
             name={"students"}
             render={({ field }) => (
-              <FormItem className="w-full">
+              <FormItem className="w-full mt-4 bg-white p-2 rounded-md">
                 <FormControl>
                   <Input
                     type="number"
@@ -152,7 +152,7 @@ const TutorForm = () => {
             control={form.control}
             name={"chapter"}
             render={({ field }) => (
-              <FormItem className="w-full">
+              <FormItem className="w-full mt-4 bg-white p-2 rounded-md">
                 <FormControl>
                   <Select>
                     <SelectTrigger>
@@ -172,12 +172,12 @@ const TutorForm = () => {
               </FormItem>
             )}
           />
-          <div className="flex justify-around">
+          <div className="flex justify-around mt-4">
             <FormField
               control={form.control}
               name={"concerns"}
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full bg-white p-2 rounded-md">
                   <FormControl>
                     <Input
                       type="text"
@@ -190,7 +190,14 @@ const TutorForm = () => {
               )}
             />
           </div>
-          <Button type="submit">Submit</Button>
+          <div className="flex justify-end mt-4">
+            <Button
+              type="submit"
+              className="bg-[#E8C945] text-white font-semibold drop-shadow-xl"
+            >
+              Submit
+            </Button>
+          </div>
         </form>
       </div>
     </Form>
