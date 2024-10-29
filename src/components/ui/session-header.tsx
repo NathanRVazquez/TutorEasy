@@ -5,23 +5,11 @@ import { signIn,signOut, useSession } from "next-auth/react";
 // import {auth,signIn,signOut}from "../../app/auth";
 
 
-// type Props ={};
-
-// const SessionHeader =async (props:Props) => {
-//     const session = await auth ();
-//     console.log(session)
-//     return (
-//     <div>SessionHeader</div>
-//     )
-// }
-
-// export default SessionHeader;
-
 const SessionHeader = () => {
   const { data: session, status } = useSession();
   const handleLogOutClick = async () => {
     try {
-      await signOut();
+      await signOut({callbackUrl: "/signin"});
     } catch (error) {
       console.error(error);
     }

@@ -10,7 +10,7 @@ if (!AZURE_AD_CLIENT_ID || !AZURE_AD_CLIENT_SECRET || !AZURE_AD_TENANT_ID) {
   throw new Error("The Azure AD environment variables are not set.");
 }
 const handler = NextAuth({
-// export const {handlers:{GET,POST}, auth, singIn, signOut} = NextAuth({
+//  const {handlers, auth, signIn, signOut} = NextAuth({
   secret: AZURE_AD_CLIENT_SECRET,
   providers: [
     Credentials({
@@ -69,3 +69,4 @@ const handler = NextAuth({
   },
 });
 export { handler as GET, handler as POST };
+// export { handlers,signIn, signOut,auth };
