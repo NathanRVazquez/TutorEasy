@@ -10,6 +10,12 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
+			'primary-green':'#317367',
+			'secondary-green':'#7BA696',
+			'custom-green':'#D2DBC1',
+			'custom-yellow':'#E8C945',
+			'custom-orange':'#D38D30',
+
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

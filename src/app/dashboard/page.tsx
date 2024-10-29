@@ -1,6 +1,7 @@
 import React from "react";
 import AnalyticsCard from "@/components/AnalyticsCard";
 
+
 export default function DashboardHomePage() {
   return (
     <div className="w-full">

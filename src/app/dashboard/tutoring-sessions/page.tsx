@@ -1,7 +1,8 @@
 import React from "react";
+import TutorForm from "@/components/TutorForm";
 
 const TutoringSessionsPage = () => {
-  return <div>TutoringSessionsPage</div>;
+  return <TutorForm />;
 };
 
 export default TutoringSessionsPage;
