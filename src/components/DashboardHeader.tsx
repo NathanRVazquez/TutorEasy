@@ -1,3 +1,4 @@
+'use client';
 import {
   Select,
   SelectContent,
@@ -5,8 +6,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useSession } from "next-auth/react";
+
 
 const DashboardHeader = () => {
+  const { data: session, status } = useSession();
+
   return (
     <div className="p-4">
       <div className="flex justify-between items-center">
@@ -16,14 +21,21 @@ const DashboardHeader = () => {
               <SelectValue placeholder="Data Range" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="1">Semester</SelectItem>
-              <SelectItem value="2">Month</SelectItem>
-              <SelectItem value="3">Week</SelectItem>
+              <SelectItem value="semester">Semester</SelectItem>
+              <SelectItem value="month">Month</SelectItem>
+              <SelectItem value="week">Week</SelectItem>
             </SelectContent>
           </Select>
         </div>
         <div>
-          <p>User</p>
+        {session ? (
+              <>
+                <p>Welcome, {session.user?.name || "Welcome!"}</p>
+              </>
+            ) : (
+              <p className="text-red-500">You are not logged in</p>
+            )
+        }
         </div>
       </div>
     </div>
