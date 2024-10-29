@@ -5,6 +5,9 @@ import Link from "next/link";
 import { House, Users, BookCopy, Notebook } from "lucide-react";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
+import {Button} from "@/components/ui/button";
+import { signIn, signOut, useSession } from "next-auth/react";
+
 
 const navLinks = [
   {
@@ -32,6 +35,20 @@ const navLinks = [
 const SideMenuLinks = () => {
   const pathname = usePathname();
 
+
+  const { data: session, status } = useSession();
+  const handleLogOutClick = async () => {
+    try {
+      await signOut({callbackUrl: "/signin"});
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
   return (
     <nav className="flex flex-col grow gap-4 lg:gap-1">
       {navLinks.map((link, key) => {
@@ -54,6 +71,8 @@ const SideMenuLinks = () => {
           </Link>
         );
       })}
+
+      {session ? <Button className="bg-blue-400 hover:bg-blue-700 text-white secondary p-0 m-0 " onClick={handleLogOutClick}> Log Out </Button> : <a href="/signin"><Button className="bg-blue-400 hover:bg-blue-700" />Login</a> }
     </nav>
   );
 };
