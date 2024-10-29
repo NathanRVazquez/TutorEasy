@@ -1,8 +1,9 @@
 'use client';
 import React from "react";
 import { signIn,signOut, useSession } from "next-auth/react";
-// import {signIn, signOut} from "next-auth/react"
-// import {auth,signIn,signOut}from "../../app/auth";
+import {Button} from "@/components/ui/button";
+
+
 
 
 const SessionHeader = () => {
@@ -25,18 +26,40 @@ const SessionHeader = () => {
   if (status === 'loading') {
     return <div>Loading...</div>;
   }
+
+
+
   return (
     <header>
-      {session ? (
-        <>
-          <p>Welcome, {session.user?.email || "User"}</p>
-          <button onClick={handleLogOutClick}>Logout</button>
-        </>
-      ) : (
+        <div className="p-4">
+        <div className="flex justify-between items-center">
+          <div>
+           
+              <a href="/"> <h1>TutorEasy</h1></a>
+          </div>
+          <div>
+            {session ? (
+              <>
+                <p>Welcome, {session.user?.email || "User"}</p>
+              </>
+            ) : (
 
-        <button onClick={handleLoginClick}>Login Here</button>
-        // <p>You are not logged in</p>
+              <p className="text-red-500">You are not logged in</p>
+            )}
+          </div>
+          <div>
+            {session ? (
+              <>
+                {/* <button className="bg-blue-400 hover:bg-blue-700" onClick={handleLogOutClick}>Logout</button> */}
+
+              </>
+            ) : (
+              // <Button className="bg-blue-400 hover:bg-blue-700" onClick={handleLoginClick}>Login Here</Button>
+              <a href="/signin"> <Button className="bg-blue-400 hover:bg-blue-700" onClick={handleLoginClick}>Login Here</Button></a>
       )}
+       </div>
+      </div>
+  </div>
     </header>
   );
 };
