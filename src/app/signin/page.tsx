@@ -1,0 +1,82 @@
+'use client';
+// use state is a client feature
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label"
+
+
+
+export default function SignInPage() {
+  const [isLoading, setIsLoading] = useState(false)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    // Simulating API call
+    setTimeout(() => setIsLoading(false), 2000)
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-green-800 via-green-600 to-green-900 flex items-center justify-center p-4 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden">
+
+      </div>
+      
+      <div className="relative">
+        <div className="bg-green-900/30 backdrop-blur-md rounded-3xl p-8 w-full max-w-md border border-green-200/20 shadow-2xl">
+          <div className="flex items-center justify-center mb-8">
+            <h1 className="text-3xl font-bold text-green-100">EduTrack</h1>
+          </div>
+          
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <Label htmlFor="email" className="text-green-100">Academic Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="bg-green-800/20 border-green-200/30 text-white placeholder-green-300/50"
+                placeholder="professor@university.edu"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="password" className="text-green-100">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="bg-green-800/20 border-green-200/30 text-white "
+                placeholder="Enter your secure password"
+              />
+            </div>
+            
+            <Button 
+              type="submit" 
+              disabled={isLoading}
+              className="w-full bg-gradient-to-r from-green-600 to-orange-700 hover:from-green-700 hover:to-orange-800 text-green-100 font-bold py-3 rounded-full transition-all duration-300 transform hover:scale-105"
+            >
+            </Button>
+          </form>
+          
+          <div className="mt-6 text-center">
+            <a href="#" className="text-white  transition-colors">Forgot your credentials?</a>
+          </div>
+
+          <div className="mt-8 pt-6 border-t border-green-200/20 text-center">
+            <p className="text-green-200/70 mb-2">New to EduTrack?</p>
+            <Button variant="outline" className="text-green-100 border-green-200/50 hover:bg-green-800/20">
+              Request Institutional Access
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

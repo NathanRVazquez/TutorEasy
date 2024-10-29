@@ -5,7 +5,11 @@ import NextAuth from "next-auth"
 // import CredentialsProvider from "next-auth/providers/credentials"
 import AzureADProvider from "next-auth/providers/azure-ad";
 
-
+// const { AZURE_AD_CLIENT_ID, AZURE_AD_CLIENT_SECRET, AZURE_AD_TENANT_ID } =
+//   process.env;
+// if (!AZURE_AD_CLIENT_ID || !AZURE_AD_CLIENT_SECRET || !AZURE_AD_TENANT_ID) {
+//   throw new Error("The Azure AD environment variables are not set.");
+// }
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   // secret: AZURE_AD_CLIENT_SECRET,
   const providers = [

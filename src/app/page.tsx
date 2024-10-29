@@ -8,28 +8,16 @@ import { signIn } from "next-auth/react";
 export default function Home() {
 
 
-  
-  // const handleLoginClick = async () => {
-  //   try {
-  //     signIn();
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-
   return (
     <div>
       <SessionHeader></SessionHeader>
 
       <h1>Home Page</h1>
-      <a href="/api/auth/signin">Login</a>
-      {/* <button
-    
-    onClick={handleLoginClick}
-  >
-    Login
-  </button> */}
+      <a href="/api/auth/signin">Go to Sign in Page</a>
+
+      <br />
+      <br/>
+      <a href="/signin">Go to custom Sign in Page</a>
          </div>
   );
 }
