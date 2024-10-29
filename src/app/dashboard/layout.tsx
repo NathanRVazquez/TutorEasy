@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import "../globals.css";
-import Link from "next/link";
-import SideMenuLinks from "@/components/SideMenuLinks";
-import DashboardHeader from "@/components/DashboardHeader";
-import { Menu } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import AppSidebar from "@/components/AppSidebar";
 
 export const metadata: Metadata = {
   title: "TutorEasy",
@@ -17,36 +14,43 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex h-screen">
-      {/* Sidebar */}
-      <aside className="w-[16%] md:w-[8%] lg:w-[14%] xl:w-[16%]">
-        <div className="flex flex-col h-full">
-          <div className="px-2 pt-2 pb-0 md:px-2 md:pt-2 xl:px-4 xl:pt-4 xl:pb-0">
-            <div className="flex justify-center items-center lg:hidden">
-              <Menu size={28} />
-            </div>
-            <div className="flex items-center justify-center lg:justify-start">
-              <Link href="/dashboard">
-                <h1 className="font-bold text-2xl hidden lg:block">
-                  TutorEasy
-                </h1>
-              </Link>
-            </div>
-          </div>
+    // <div className="flex h-screen">
+    //   {/* Sidebar */}
+    //   <aside className="w-[16%] md:w-[8%] lg:w-[14%] xl:w-[16%]">
+    //     <div className="flex flex-col h-full">
+    //       <div className="px-2 pt-2 pb-0 md:px-2 md:pt-2 xl:px-4 xl:pt-4 xl:pb-0">
+    //         <div className="flex justify-center items-center lg:hidden">
+    //           <Menu size={28} />
+    //         </div>
+    //         <div className="flex items-center justify-center lg:justify-start">
+    //           <Link href="/dashboard">
+    //             <h1 className="font-bold text-2xl hidden lg:block">
+    //               TutorEasy
+    //             </h1>
+    //           </Link>
+    //         </div>
+    //       </div>
 
-          <Separator className="my-4" />
+    //       <Separator className="my-4" />
 
-          <SideMenuLinks />
-          <p className="text-center text-xs hidden lg:block text-gray-400 mb-2">
-            &copy; {new Date().getFullYear()} TutorEasy
-          </p>
-        </div>
-      </aside>
-      {/* Main Content */}
-      <div className="grow bg-blue-50">
-        <DashboardHeader />
-        <div className="p-4">{children}</div>
-      </div>
-    </div>
+    //       <SideMenuLinks />
+    //       <p className="text-center text-xs hidden lg:block text-gray-400 mb-2">
+    //         &copy; {new Date().getFullYear()} TutorEasy
+    //       </p>
+    //     </div>
+    //   </aside>
+    //   {/* Main Content */}
+    //   <div className="grow bg-blue-50">
+    //     <DashboardHeader />
+    //     <div className="p-4">{children}</div>
+    //   </div>
+    // </div>
+    <SidebarProvider>
+      <AppSidebar />
+      <main>
+        <SidebarTrigger />
+        {children}
+      </main>
+    </SidebarProvider>
   );
 }
