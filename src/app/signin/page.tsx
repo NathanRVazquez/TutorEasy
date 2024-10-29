@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label"
 import { signIn,signOut, useSession } from "next-auth/react";
-import DashboardHeader from "../../components/DashboardHeader";
 
 export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -30,7 +29,6 @@ export default function SignInPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-300 via-primary-green to-secondary-green flex items-center justify-center p-4 overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
-      <DashboardHeader />
       </div>
       
       <div className="relative">
