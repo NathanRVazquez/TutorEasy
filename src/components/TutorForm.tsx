@@ -35,9 +35,12 @@ const schema = z.object({
   class_section: z.string({
     required_error: "Class section is required",
   }),
-  students: z.number().int().positive({
-    message: "How many students did you tutor?",
-  }),
+  students: z
+    .string()
+    .refine((val) => !isNaN(Number(val)), {
+      message: "How many students did you tutor?",
+    })
+    .transform((val) => Number(val)),
   chapter: z.string({
     required_error: "Chapter is required",
     message: "Which chapter are you covering today?",
@@ -54,6 +57,7 @@ const TutorForm = () => {
       name: "",
       shift: "",
       class_section: "",
+      students: 0,
       chapter: "",
       concerns: "",
     },
@@ -184,7 +188,7 @@ const TutorForm = () => {
                       type="text"
                       placeholder="Type any existing concerns here"
                       {...field}
-                      className="w-full min-h-96"
+                      className="w-full h-full"
                     />
                   </FormControl>
                   <FormMessage />
@@ -195,7 +199,7 @@ const TutorForm = () => {
           <div className="flex justify-end mt-4">
             <Button
               type="submit"
-              className="bg-[#E8C945] hover:bg-[#D38D30] text-white font-semibold drop-shadow-xl"
+              className="bg-custom-yellow hover:bg-custom-orange rounded-3xl text-white font-semibold drop-shadow-xl"
             >
               Submit
             </Button>
