@@ -23,6 +23,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 const schema = z.object({
   name: z.string({
@@ -34,9 +36,12 @@ const schema = z.object({
   class_section: z.string({
     required_error: "Class section is required",
   }),
-  students: z.number().int().positive({
-    message: "How many students did you tutor?",
-  }),
+  students: z
+    .string()
+    .refine((val) => !isNaN(Number(val)), {
+      message: "How many students did you tutor?",
+    })
+    .transform((val) => Number(val)),
   chapter: z.string({
     required_error: "Chapter is required",
     message: "Which chapter are you covering today?",
@@ -53,6 +58,7 @@ const TutorForm = () => {
       name: "",
       shift: "",
       class_section: "",
+      students: 0,
       chapter: "",
       concerns: "",
     },
@@ -72,9 +78,9 @@ const TutorForm = () => {
               control={form.control}
               name={"name"}
               render={({ field }) => (
-                <FormItem className="w-full bg-white p-2 rounded-md">
+                <FormItem className="w-full bg-white rounded-md">
                   <FormControl>
-                    <Select>
+                    <Select onValueChange={field.onChange} defaultValue={""}>
                       <SelectTrigger>
                         <SelectValue placeholder="TA" {...field} />
                       </SelectTrigger>
@@ -93,9 +99,9 @@ const TutorForm = () => {
               control={form.control}
               name={"shift"}
               render={({ field }) => (
-                <FormItem className="w-full bg-white p-2 rounded-md">
+                <FormItem className="w-full bg-white rounded-md">
                   <FormControl>
-                    <Select>
+                    <Select onValueChange={field.onChange} defaultValue={""}>
                       <SelectTrigger>
                         <SelectValue placeholder="Shift Worked" {...field} />
                       </SelectTrigger>
@@ -114,9 +120,9 @@ const TutorForm = () => {
               control={form.control}
               name={"class_section"}
               render={({ field }) => (
-                <FormItem className="w-full bg-white p-2 rounded-md">
+                <FormItem className="w-full bg-white rounded-md">
                   <FormControl>
-                    <Select>
+                    <Select onValueChange={field.onChange} defaultValue={""}>
                       <SelectTrigger>
                         <SelectValue placeholder="Class Section" {...field} />
                       </SelectTrigger>
@@ -136,7 +142,7 @@ const TutorForm = () => {
             control={form.control}
             name={"students"}
             render={({ field }) => (
-              <FormItem className="w-full mt-4 bg-white p-2 rounded-md">
+              <FormItem className="w-full mt-4 bg-white rounded-md">
                 <FormControl>
                   <Input
                     type="number"
@@ -152,9 +158,9 @@ const TutorForm = () => {
             control={form.control}
             name={"chapter"}
             render={({ field }) => (
-              <FormItem className="w-full mt-4 bg-white p-2 rounded-md">
+              <FormItem className="w-full mt-4 bg-white rounded-md">
                 <FormControl>
-                  <Select>
+                  <Select onValueChange={field.onChange} defaultValue={""}>
                     <SelectTrigger>
                       <SelectValue
                         placeholder="What chapter are you covering today?"
@@ -177,13 +183,11 @@ const TutorForm = () => {
               control={form.control}
               name={"concerns"}
               render={({ field }) => (
-                <FormItem className="w-full min-h-96 bg-white p-2 rounded-md">
+                <FormItem className="w-full bg-white rounded-md">
                   <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="Type any existing concerns here"
+                    <Textarea
+                      placeholder="Write any concerns here"
                       {...field}
-                      className="w-full min-h-96"
                     />
                   </FormControl>
                   <FormMessage />
@@ -194,7 +198,7 @@ const TutorForm = () => {
           <div className="flex justify-end mt-4">
             <Button
               type="submit"
-              className="bg-[#E8C945] hover:bg-[#D38D30] text-white font-semibold drop-shadow-xl"
+              className="bg-custom-yellow hover:bg-custom-orange rounded-3xl text-white font-semibold drop-shadow-xl"
             >
               Submit
             </Button>
