@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const schema = z.object({
   name: z.string({ message: "Name is required" }),
@@ -48,9 +49,7 @@ const schema = z.object({
     required_error: "Schedule end time is required",
     message: "Schedule",
   }),
-  scheduleRecurring: z.boolean({
-    message: "Recurring",
-  }),
+  scheduleRecurring: z.boolean().default(false).optional(),
 });
 
 const NewTutorForm = () => {
@@ -63,6 +62,7 @@ const NewTutorForm = () => {
       scheduleDay: "",
       scheduleStartTime: "",
       scheduleEndTime: "",
+      scheduleRecurring: false,
     },
   });
 
@@ -114,7 +114,7 @@ const NewTutorForm = () => {
                 <FormItem className="w-full rounded-md">
                   <FormLabel>Class</FormLabel>
                   <FormControl className="bg-white">
-                    <Select>
+                    <Select onValueChange={field.onChange} defaultValue={""}>
                       <SelectTrigger className="bg-white">
                         <SelectValue placeholder="Classes" {...field} />
                       </SelectTrigger>
@@ -131,7 +131,25 @@ const NewTutorForm = () => {
             />
           </div>
           <div className="py-4 px-2">
-            <Label>TA Schedule</Label>
+            <div className="flex flex-row items-center">
+              <Label>TA Schedule</Label>
+              <FormField
+                control={form.control}
+                name={"scheduleRecurring"}
+                render={({ field }) => (
+                  <FormItem className="px-6">
+                    <FormControl className="bg-white">
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel className="pl-2">Recurring?</FormLabel>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <div className="flex gap-2 items-center">
               <div className="flex flex-col">
                 <FormField

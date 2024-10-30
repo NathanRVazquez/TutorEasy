@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 
 const schema = z.object({
@@ -79,7 +80,7 @@ const TutorForm = () => {
               render={({ field }) => (
                 <FormItem className="w-full bg-white rounded-md">
                   <FormControl>
-                    <Select>
+                    <Select onValueChange={field.onChange} defaultValue={""}>
                       <SelectTrigger>
                         <SelectValue placeholder="TA" {...field} />
                       </SelectTrigger>
@@ -100,7 +101,7 @@ const TutorForm = () => {
               render={({ field }) => (
                 <FormItem className="w-full bg-white rounded-md">
                   <FormControl>
-                    <Select>
+                    <Select onValueChange={field.onChange} defaultValue={""}>
                       <SelectTrigger>
                         <SelectValue placeholder="Shift Worked" {...field} />
                       </SelectTrigger>
@@ -121,7 +122,7 @@ const TutorForm = () => {
               render={({ field }) => (
                 <FormItem className="w-full bg-white rounded-md">
                   <FormControl>
-                    <Select>
+                    <Select onValueChange={field.onChange} defaultValue={""}>
                       <SelectTrigger>
                         <SelectValue placeholder="Class Section" {...field} />
                       </SelectTrigger>
@@ -159,7 +160,7 @@ const TutorForm = () => {
             render={({ field }) => (
               <FormItem className="w-full mt-4 bg-white rounded-md">
                 <FormControl>
-                  <Select>
+                  <Select onValueChange={field.onChange} defaultValue={""}>
                     <SelectTrigger>
                       <SelectValue
                         placeholder="What chapter are you covering today?"
@@ -182,13 +183,11 @@ const TutorForm = () => {
               control={form.control}
               name={"concerns"}
               render={({ field }) => (
-                <FormItem className="w-full min-h-96 bg-white rounded-md">
+                <FormItem className="w-full bg-white rounded-md">
                   <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="Type any existing concerns here"
+                    <Textarea
+                      placeholder="Write any concerns here"
                       {...field}
-                      className="w-full h-full"
                     />
                   </FormControl>
                   <FormMessage />
