@@ -21,9 +21,9 @@ const DashboardHeader = () => {
               <SelectValue placeholder="Data Range" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="1">Semester</SelectItem>
-              <SelectItem value="2">Month</SelectItem>
-              <SelectItem value="3">Week</SelectItem>
+              <SelectItem value="semester">Semester</SelectItem>
+              <SelectItem value="month">Month</SelectItem>
+              <SelectItem value="week">Week</SelectItem>
             </SelectContent>
           </Select>
         </div>
