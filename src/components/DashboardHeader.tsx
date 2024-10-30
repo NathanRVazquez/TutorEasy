@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import {
   Select,
   SelectContent,
@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/select";
 import { useSession } from "next-auth/react";
 
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 const DashboardHeader = () => {
   const { data: session, status } = useSession();
@@ -16,6 +17,7 @@ const DashboardHeader = () => {
     <div className="p-4">
       <div className="flex justify-between items-center">
         <div>
+          <SidebarTrigger />
           <Select>
             <SelectTrigger className="w-32">
               <SelectValue placeholder="Data Range" />
@@ -28,14 +30,13 @@ const DashboardHeader = () => {
           </Select>
         </div>
         <div>
-        {session ? (
-              <>
-                <p>Welcome, {session.user?.name || "Welcome!"}</p>
-              </>
-            ) : (
-              <p className="text-red-500">You are not logged in</p>
-            )
-        }
+          {session ? (
+            <>
+              <p>Welcome, {session.user?.name || "Welcome!"}</p>
+            </>
+          ) : (
+            <p className="text-red-500">You are not logged in</p>
+          )}
         </div>
       </div>
     </div>

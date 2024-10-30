@@ -15,7 +15,6 @@ import {
   SidebarMenuSub,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-
 import {
   Collapsible,
   CollapsibleContent,
@@ -23,6 +22,8 @@ import {
 } from "@/components/ui/collapsible";
 
 import Link from "next/link";
+
+import SessionButton from "@/components/SessionButton";
 
 // Menu items.
 const navLinks = [
@@ -131,11 +132,14 @@ export default function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarSeparator />
       <SidebarFooter>
-        <p className="text-center text-xs text-gray-400">
-          &copy; {new Date().getFullYear()} TutorEasy
-        </p>
+        <div className="space-y-2">
+          <SessionButton />
+          <SidebarSeparator />
+          <p className="text-center text-xs text-gray-400">
+            &copy; {new Date().getFullYear()} TutorEasy
+          </p>
+        </div>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

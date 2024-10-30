@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/AppSidebar";
+import DashboardHeader from "@/components/DashboardHeader";
 
 export const metadata: Metadata = {
   title: "TutorEasy",
@@ -47,9 +48,11 @@ export default function RootLayout({
     // </div>
     <SidebarProvider>
       <AppSidebar />
-      <main>
-        <SidebarTrigger />
-        {children}
+      <main className="flex h-screen w-full">
+        <div className="grow bg-blue-50">
+          <DashboardHeader />
+          <div className="p-4">{children}</div>
+        </div>
       </main>
     </SidebarProvider>
   );
