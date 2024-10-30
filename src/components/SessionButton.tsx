@@ -24,10 +24,9 @@ export default function SessionButton() {
           Log Out
         </Button>
       ) : (
-        <a href="/signin">
-          <Button className="bg-blue-400 hover:bg-blue-700" />
-          Login
-        </a>
+        <Button className="bg-blue-400 hover:bg-blue-700" asChild>
+          <a href="/signin">Login</a>
+        </Button>
       )}
     </>
   );

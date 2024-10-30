@@ -1,8 +1,7 @@
 // 'use client';
 
-import Image from "next/image";
 import SessionHeader from "@/components/session-header";
-import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -10,11 +9,7 @@ export default function Home() {
       <SessionHeader />
 
       <h1 className="text-3xl">Home Page</h1>
-      <a href="/api/auth/signin">Go to Sign in Page</a>
-
-      <br />
-      <br />
-      <a href="/signin">Go to custom Sign in Page</a>
+      <Link href="/signin">Go to custom Sign in Page</Link>
     </div>
   );
 }
