@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 const schema = z.object({
   name: z.string({
@@ -72,7 +73,7 @@ const TutorForm = () => {
               control={form.control}
               name={"name"}
               render={({ field }) => (
-                <FormItem className="w-full bg-white p-2 rounded-md">
+                <FormItem className="w-full bg-white rounded-md">
                   <FormControl>
                     <Select>
                       <SelectTrigger>
@@ -93,7 +94,7 @@ const TutorForm = () => {
               control={form.control}
               name={"shift"}
               render={({ field }) => (
-                <FormItem className="w-full bg-white p-2 rounded-md">
+                <FormItem className="w-full bg-white rounded-md">
                   <FormControl>
                     <Select>
                       <SelectTrigger>
@@ -114,7 +115,7 @@ const TutorForm = () => {
               control={form.control}
               name={"class_section"}
               render={({ field }) => (
-                <FormItem className="w-full bg-white p-2 rounded-md">
+                <FormItem className="w-full bg-white rounded-md">
                   <FormControl>
                     <Select>
                       <SelectTrigger>
@@ -136,7 +137,7 @@ const TutorForm = () => {
             control={form.control}
             name={"students"}
             render={({ field }) => (
-              <FormItem className="w-full mt-4 bg-white p-2 rounded-md">
+              <FormItem className="w-full mt-4 bg-white rounded-md">
                 <FormControl>
                   <Input
                     type="number"
@@ -152,7 +153,7 @@ const TutorForm = () => {
             control={form.control}
             name={"chapter"}
             render={({ field }) => (
-              <FormItem className="w-full mt-4 bg-white p-2 rounded-md">
+              <FormItem className="w-full mt-4 bg-white rounded-md">
                 <FormControl>
                   <Select>
                     <SelectTrigger>
@@ -177,7 +178,7 @@ const TutorForm = () => {
               control={form.control}
               name={"concerns"}
               render={({ field }) => (
-                <FormItem className="w-full min-h-96 bg-white p-2 rounded-md">
+                <FormItem className="w-full min-h-96 bg-white rounded-md">
                   <FormControl>
                     <Input
                       type="text"

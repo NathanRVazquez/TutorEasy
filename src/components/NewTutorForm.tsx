@@ -4,7 +4,6 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -23,9 +22,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 const schema = z.object({
-  //creating schema for form validation
   name: z.string({ message: "Name is required" }),
   emplid: z
     .string()
@@ -78,13 +77,13 @@ const NewTutorForm = () => {
       <div className="bg-secondary-green rounded-md p-4">
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="py-4 px-2">
-            <h1 className="text-xl pb-3">Name of TA</h1>
             <FormField
               control={form.control}
               name={"name"}
               render={({ field }) => (
-                <FormItem className="w-full bg-white rounded-md">
-                  <FormControl>
+                <FormItem className="w-full rounded-md">
+                  <FormLabel>Name of TA</FormLabel>
+                  <FormControl className="bg-white">
                     <Input {...field} placeholder="Enter the name of the TA" />
                   </FormControl>
                   <FormMessage />
@@ -93,13 +92,13 @@ const NewTutorForm = () => {
             />
           </div>
           <div className="py-4 px-2">
-            <h1 className="text-xl pb-3">TA EMPLID</h1>
             <FormField
               control={form.control}
               name={"emplid"}
               render={({ field }) => (
-                <FormItem className="w-full bg-white rounded-md">
-                  <FormControl>
+                <FormItem className="w-full rounded-md">
+                  <FormLabel>TA EMPLID</FormLabel>
+                  <FormControl className="bg-white">
                     <Input {...field} placeholder="Enter the TA's EMPLID" />
                   </FormControl>
                   <FormMessage />
@@ -108,15 +107,15 @@ const NewTutorForm = () => {
             />
           </div>
           <div className="py-4 px-2">
-            <h1 className="text-xl pb-3">Class</h1>
             <FormField
               control={form.control}
               name={"class_section"}
               render={({ field }) => (
-                <FormItem className="w-full bg-white rounded-md">
-                  <FormControl>
+                <FormItem className="w-full rounded-md">
+                  <FormLabel>Class</FormLabel>
+                  <FormControl className="bg-white">
                     <Select>
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-white">
                         <SelectValue placeholder="Classes" {...field} />
                       </SelectTrigger>
                       <SelectContent>
@@ -132,16 +131,16 @@ const NewTutorForm = () => {
             />
           </div>
           <div className="py-4 px-2">
-            <h1 className="text-xl pb-3">TA Schedule</h1>
+            <Label>TA Schedule</Label>
             <div className="flex gap-2 items-center">
               <div className="flex flex-col">
-                <h1 className="text-xl">Day</h1>
                 <FormField
                   control={form.control}
                   name={"scheduleDay"}
                   render={({ field }) => (
-                    <FormItem className="w-full bg-white rounded-md">
-                      <FormControl>
+                    <FormItem className="w-full rounded-md">
+                      <FormLabel>Day</FormLabel>
+                      <FormControl className="bg-white">
                         <Input
                           type="text"
                           placeholder="Day of the Week"
@@ -155,13 +154,13 @@ const NewTutorForm = () => {
                 />
               </div>
               <div className="flex flex-col">
-                <h1 className="text-xl">Start Time</h1>
                 <FormField
                   control={form.control}
                   name={"scheduleStartTime"}
                   render={({ field }) => (
-                    <FormItem className="w-full bg-white rounded-md">
-                      <FormControl>
+                    <FormItem className="w-full rounded-md">
+                      <FormLabel>Start Time</FormLabel>
+                      <FormControl className="bg-white">
                         <Input
                           type="text"
                           placeholder="Start Time"
@@ -174,15 +173,15 @@ const NewTutorForm = () => {
                   )}
                 />
               </div>
-              <h1 className="text-xl">to</h1>
+              <Label className="items-end">to</Label>
               <div className="flex flex-col">
-                <h1 className="text-xl">End Time</h1>
                 <FormField
                   control={form.control}
                   name={"scheduleEndTime"}
                   render={({ field }) => (
-                    <FormItem className="w-full bg-white rounded-md">
-                      <FormControl>
+                    <FormItem className="w-full rounded-md">
+                      <FormLabel>End Time</FormLabel>
+                      <FormControl className="bg-white">
                         <Input
                           type="text"
                           placeholder="End Time"
@@ -195,19 +194,20 @@ const NewTutorForm = () => {
                   )}
                 />
               </div>
-
-              <Button
-                type="button"
-                className="bg-custom-orange text-white hover:bg-custom-yellow"
-              >
-                Add Another Shift
-              </Button>
+              <div className="flex flex-col justify-end">
+                <Button
+                  type="button"
+                  className="bg-custom-orange text-white hover:bg-custom-yellow"
+                >
+                  Add Another Shift
+                </Button>
+              </div>
             </div>
           </div>
           <div className="flex justify-end mt-4">
             <Button
               type="submit"
-              className="bg-custom-yellow text-white hover:bg-custom-orange"
+              className="bg-custom-yellow drop-shadow-lg rounded-3xl text-white hover:bg-custom-orange"
             >
               Submit
             </Button>
