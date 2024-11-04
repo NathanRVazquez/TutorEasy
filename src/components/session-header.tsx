@@ -1,6 +1,6 @@
 'use client';
 import React from "react";
-import { signIn,signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import {Button} from "@/components/ui/button";
 
 
@@ -8,13 +8,13 @@ import {Button} from "@/components/ui/button";
 
 const SessionHeader = () => {
   const { data: session, status } = useSession();
-  const handleLogOutClick = async () => {
-    try {
-      await signOut({callbackUrl: "/signin"});
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const handleLogOutClick = async () => {
+  //   try {
+  //     await signOut({callbackUrl: "/signin"});
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const handleLoginClick = async () => {
     try {

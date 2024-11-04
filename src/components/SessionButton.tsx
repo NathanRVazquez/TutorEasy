@@ -1,11 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 export default function SessionButton() {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const handleLogOutClick = async () => {
     try {
       await signOut({ callbackUrl: "/signin" });

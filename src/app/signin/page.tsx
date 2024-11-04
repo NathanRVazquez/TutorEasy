@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label"
-import { signIn,signOut, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false)
