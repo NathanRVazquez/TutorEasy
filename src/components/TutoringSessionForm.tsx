@@ -24,7 +24,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+
+import { useToast } from "@/hooks/use-toast";
 
 const schema = z.object({
   name: z.string({
@@ -64,9 +65,20 @@ const TutorForm = () => {
     },
   });
 
+  const { toast } = useToast();
+
   function onSubmit(values: z.infer<typeof schema>) {
     console.log(values);
     // this is where we send the form data to the db
+    try {
+      // send the form data to the db
+      toast({
+        title: "Form submitted",
+        description: "Your tutoring session has been submitted successfully",
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -193,7 +205,7 @@ const TutorForm = () => {
                     </SelectContent>
                   </Select>
                 </FormControl>
-                <FormDescription>
+                <FormDescription className="font-bold">
                   Which chapter are you covering today?
                 </FormDescription>
                 <FormMessage />
@@ -214,7 +226,7 @@ const TutorForm = () => {
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>
+                  <FormDescription className="font-bold">
                     Enter student struggles and areas of concern
                   </FormDescription>
                   <FormMessage />
