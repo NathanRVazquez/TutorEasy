@@ -1,5 +1,5 @@
 import React from "react";
-import TutorForm from "@/components/TutorForm";
+import TutorForm from "@/components/TutoringSessionForm";
 
 const TutoringSessionsPage = () => {
   return <TutorForm />;
