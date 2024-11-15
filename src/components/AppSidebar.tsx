@@ -77,46 +77,46 @@ export default function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {navLinks.map((item) => {
-                if (item.href === "/dashboard/classes") {
-                  return (
-                    <Collapsible
-                      key={item.title}
-                      asChild
-                      defaultOpen
-                      className="group/collapsible"
-                    >
-                      <SidebarMenuItem>
-                        <CollapsibleTrigger asChild>
-                          <SidebarMenuItem key={item.title}>
-                            <SidebarMenuButton asChild tooltip={item.title}>
-                              <Link href={item.href}>
-                                <item.icon />
-                                <span className="font-bold">{item.title}</span>
-                                <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                              </Link>
-                            </SidebarMenuButton>
-                          </SidebarMenuItem>
-                        </CollapsibleTrigger>
-                        <CollapsibleContent>
-                          <SidebarMenuSub>
-                            {/* Map through all classes of professor/TA */}
-                            <SidebarMenuButton asChild>
-                              <Link href={`${item.href}/:classId`}>
-                                <span className="font-bold">Class 1</span>
-                              </Link>
-                            </SidebarMenuButton>
-                            <SidebarMenuButton asChild>
-                              <Link href={`${item.href}/:classId`}>
-                                <span className="font-bold">Class 2</span>
-                              </Link>
-                            </SidebarMenuButton>
-                            {/* End of map */}
-                          </SidebarMenuSub>
-                        </CollapsibleContent>
-                      </SidebarMenuItem>
-                    </Collapsible>
-                  );
-                }
+                // if (item.href === "/dashboard/classes") {
+                //   return (
+                //     <Collapsible
+                //       key={item.title}
+                //       asChild
+                //       defaultOpen
+                //       className="group/collapsible"
+                //     >
+                //       <SidebarMenuItem>
+                //         <CollapsibleTrigger asChild>
+                //           <SidebarMenuItem key={item.title}>
+                //             <SidebarMenuButton asChild tooltip={item.title}>
+                //               <Link href={item.href}>
+                //                 <item.icon />
+                //                 <span className="font-bold">{item.title}</span>
+                //                 <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                //               </Link>
+                //             </SidebarMenuButton>
+                //           </SidebarMenuItem>
+                //         </CollapsibleTrigger>
+                //         <CollapsibleContent>
+                //           <SidebarMenuSub>
+                //             {/* Map through all classes of professor/TA */}
+                //             <SidebarMenuButton asChild>
+                //               <Link href={`${item.href}/:classId`}>
+                //                 <span className="font-bold">Class 1</span>
+                //               </Link>
+                //             </SidebarMenuButton>
+                //             <SidebarMenuButton asChild>
+                //               <Link href={`${item.href}/:classId`}>
+                //                 <span className="font-bold">Class 2</span>
+                //               </Link>
+                //             </SidebarMenuButton>
+                //             {/* End of map */}
+                //           </SidebarMenuSub>
+                //         </CollapsibleContent>
+                //       </SidebarMenuItem>
+                //     </Collapsible>
+                //   );
+                // }
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
