@@ -231,16 +231,20 @@ export default function TutoringSessionForm() {
             <h2 className="text-xl font-bold text-blue-400">
               Topics and Concerns:
             </h2>
-            <p className="text-sm font-semibold">
-              Fill in a topic and the relevant concerns to that topic.
-            </p>
+            <div>
+              <p className="text-sm font-semibold">
+                Fill in a topic and the relevant concerns to that topic. You can
+                add a new topic by clicking the "Add Topic" button. You can also
+                delete a topic by clicking the "Delete" button.
+              </p>
+            </div>
           </div>
 
           <div className="space-y-4">
             {form.watch("topics").map((_, index) => (
               <div
                 className={`${
-                  index > 0 ? "pl-8 border-slate-200 border-l-[2px]" : "pl-0"
+                  index >= 0 ? "pl-8 border-slate-200 border-l-[2px]" : "pl-0"
                 }`}
                 key={index}
               >
