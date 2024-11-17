@@ -36,10 +36,11 @@ const schema = z.object({
   end_time: z.coerce.date({
     required_error: "End time is required",
   }),
-  students: z
+  students: z.coerce
     .number({
-      required_error: "Number of students is required",
+      required_error: "Number of students is",
     })
+    .min(0, "Number of students is required")
     .refine((value) => value >= 0, {
       message: "Number of students must be greater than or equal to 0",
     }),
@@ -103,6 +104,14 @@ export default function TutoringSessionForm() {
   function onSubmit(values: z.infer<typeof schema>) {
     console.log(values);
     // this is where we send the form data to the db
+
+    const formData = {
+      ...values,
+      start_time: values.start_time.toLocaleString(),
+      end_time: values.end_time.toLocaleString(),
+    };
+
+    console.log(formData);
     try {
       // send the form data to the db
       toast({
@@ -208,7 +217,6 @@ export default function TutoringSessionForm() {
                     type="number"
                     placeholder="How many students did you tutor?"
                     {...field}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                 </FormControl>
                 {/* <FormDescription className="font-bold">
@@ -307,7 +315,7 @@ export default function TutoringSessionForm() {
             <Button
               type="button"
               onClick={addNewInputs}
-              className="bg-blue-400 hover:bg-blue-500 rounded-md text-white font-semibold"
+              className="bg-blue-400 hover:bg-blue-500 text-sm rounded-md text-white font-semibold"
             >
               Add Topic
             </Button>
