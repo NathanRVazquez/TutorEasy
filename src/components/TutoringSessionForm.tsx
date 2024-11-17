@@ -24,48 +24,81 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { DatetimePicker } from "@/components/ui/datetime-picker";
 
 import { useToast } from "@/hooks/use-toast";
 
 const schema = z.object({
-  name: z.string({
-    required_error: "Name is required",
+  name: z.string().min(1, "Name is required"),
+  start_time: z.coerce.date({
+    required_error: "Start time is required",
   }),
-  shift: z.string({
-    required_error: "Shift is required",
-  }),
-  class_section: z.string({
-    required_error: "Class section is required",
+  end_time: z.coerce.date({
+    required_error: "End time is required",
   }),
   students: z
-    .string()
-    .refine((val) => !isNaN(Number(val)), {
-      message: "How many students did you tutor?",
+    .number({
+      required_error: "Number of students is required",
     })
-    .transform((val) => Number(val)),
-  chapter: z.string({
-    required_error: "Chapter is required",
-    message: "Which chapter are you covering today?",
-  }),
-  concerns: z.string({
-    message: "Type any existing concerns",
-  }),
+    .refine((value) => value >= 0, {
+      message: "Number of students must be greater than or equal to 0",
+    }),
+  topics: z
+    .array(
+      z.object({
+        topic: z
+          .string({
+            required_error: "Topic is required",
+          })
+          .min(1, "Topic is required"),
+        observations: z
+          .string({
+            required_error: "Observations are required",
+          })
+          .min(1, "Observations are required"),
+      })
+    )
+    .min(1, "At least one topic is required"),
 });
 
-const TutorForm = () => {
+export default function TutoringSessionForm() {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
       name: "",
-      shift: "",
-      class_section: "",
+      start_time: new Date(),
+      end_time: new Date(),
       students: 0,
-      chapter: "",
-      concerns: "",
+      topics: [
+        {
+          topic: "",
+          observations: "",
+        },
+      ],
     },
   });
 
   const { toast } = useToast();
+
+  function addNewInputs() {
+    form.setValue("topics", [
+      ...form.getValues("topics"),
+      {
+        topic: "",
+        observations: "",
+      },
+    ]);
+  }
+
+  function deleteInput(index: number) {
+    const topics = form.getValues("topics");
+    if (topics.length > 1) {
+      form.setValue(
+        "topics",
+        topics.filter((_, i) => i !== index)
+      );
+    }
+  }
 
   function onSubmit(values: z.infer<typeof schema>) {
     console.log(values);
@@ -83,26 +116,30 @@ const TutorForm = () => {
 
   return (
     <Form {...form}>
-      <div className="bg-white rounded-md p-4">
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="flex justify-around space-x-4">
+      <div className="bg-white rounded-md p-4 drop-shadow-2xl">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="flex flex-col lg:flex-row justify-start lg:justify-between items-start lg:items-center gap-2">
             <FormField
               control={form.control}
               name={"name"}
               render={({ field }) => (
-                <FormItem className="w-full rounded-md">
+                <FormItem className="w-full lg:w-1/2">
                   <FormLabel className="font-bold">TA Name</FormLabel>
                   <FormControl>
-                    <Select onValueChange={field.onChange} defaultValue={""}>
+                    <Select onValueChange={field.onChange}>
                       <SelectTrigger>
                         <SelectValue placeholder="TA" {...field} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="test1">Nathan Vazquez</SelectItem>
-                        <SelectItem value="test2">
+                        <SelectItem value="Nathan Vazquez">
+                          Nathan Vazquez
+                        </SelectItem>
+                        <SelectItem value="Ynalois Pangilinan">
                           Ynalois Pangilinan
                         </SelectItem>
-                        <SelectItem value="test3">Shohruz Ernazarov</SelectItem>
+                        <SelectItem value="Shohruz Ernazarov">
+                          Shohruz Ernazarov
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -113,131 +150,173 @@ const TutorForm = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name={"shift"}
-              render={({ field }) => (
-                <FormItem className="w-full bg-white rounded-md">
-                  <FormLabel className="font-bold">Shift</FormLabel>
-                  <FormControl>
-                    <Select onValueChange={field.onChange} defaultValue={""}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Shift Worked" {...field} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="test1">1:00 PM - 2:30 PM</SelectItem>
-                        <SelectItem value="test2">2:30 PM - 4:00 PM</SelectItem>
-                        <SelectItem value="test3">4:00 PM - 5:30 PM</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormDescription className="font-bold">
-                    Select your scheduled shift
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name={"class_section"}
-              render={({ field }) => (
-                <FormItem className="w-full bg-white rounded-md">
-                  <FormLabel className="font-bold">Class Section</FormLabel>
-                  <FormControl>
-                    <Select onValueChange={field.onChange} defaultValue={""}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Class Section" {...field} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="test1">test1</SelectItem>
-                        <SelectItem value="test2">test2</SelectItem>
-                        <SelectItem value="test3">test3</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormDescription className="font-bold">
-                    Select the class section
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
+            <div className="flex flex-col lg:flex-row lg:justify-start justify-center items-center gap-2 lg:gap-4 xl:gap-8">
+              <FormField
+                control={form.control}
+                name="start_time"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-bold">
+                      Shift Start Time
+                    </FormLabel>
+                    <DatetimePicker
+                      {...field}
+                      format={[
+                        ["months", "days", "years"],
+                        ["hours", "minutes", "am/pm"],
+                      ]}
+                    />
+                    <FormDescription className="font-bold">
+                      Select your start shift time.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="end_time"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-bold">Shift End Time</FormLabel>
+                    <DatetimePicker
+                      {...field}
+                      format={[
+                        ["months", "days", "years"],
+                        ["hours", "minutes", "am/pm"],
+                      ]}
+                    />
+                    <FormDescription className="font-bold">
+                      Select your end shift time.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
+
           <FormField
             control={form.control}
             name={"students"}
             render={({ field }) => (
-              <FormItem className="w-full mt-4 bg-white rounded-md">
+              <FormItem className="w-full">
                 <FormLabel className="font-bold">Students Tutored</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
                     placeholder="How many students did you tutor?"
                     {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                 </FormControl>
-                <FormDescription className="font-bold">
+                {/* <FormDescription className="font-bold">
                   Enter the amount of students you tutored
-                </FormDescription>
+                </FormDescription> */}
                 <FormMessage />
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name={"chapter"}
-            render={({ field }) => (
-              <FormItem className="w-full mt-4 bg-white rounded-md">
-                <FormLabel className="font-bold">Chapter</FormLabel>
-                <FormControl>
-                  <Select onValueChange={field.onChange} defaultValue={""}>
-                    <SelectTrigger>
-                      <SelectValue
-                        placeholder="What chapter are you covering today?"
-                        {...field}
-                      />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="test1">Chapter 1</SelectItem>
-                      <SelectItem value="test2">Chapter 2</SelectItem>
-                      <SelectItem value="test3">Chapter 3</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormDescription className="font-bold">
-                  Which chapter are you covering today?
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex justify-around mt-4">
-            <FormField
-              control={form.control}
-              name={"concerns"}
-              render={({ field }) => (
-                <FormItem className="w-full bg-white rounded-md">
-                  <FormLabel className="font-bold">Concerns</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      className="h-24"
-                      placeholder="Write any concerns here"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription className="font-bold">
-                    Enter student struggles and areas of concern
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
+          <div>
+            <h2 className="text-xl font-bold text-blue-400">
+              Topics and Concerns:
+            </h2>
+            <p className="text-sm font-semibold">
+              Fill in a topic and the relevant concerns to that topic.
+            </p>
           </div>
-          <div className="flex justify-end mt-4">
+
+          <div className="space-y-4">
+            {form.watch("topics").map((_, index) => (
+              <div
+                className={`${
+                  index > 0 ? "pl-8 border-slate-200 border-l-[2px]" : "pl-0"
+                }`}
+                key={index}
+              >
+                <FormField
+                  control={form.control}
+                  name={`topics.${index}.topic`}
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel className="font-bold">Topic</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={""}
+                        >
+                          <SelectTrigger>
+                            <SelectValue
+                              placeholder="What topic was covered?"
+                              {...field}
+                            />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Heaps">Heaps</SelectItem>
+                            <SelectItem value="Hashing">Hashing</SelectItem>
+                            <SelectItem value="Binary Search Trees">
+                              Binary Search Trees
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormDescription className="font-bold">
+                        Choose the topic you covered
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name={`topics.${index}.observations`}
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel className="font-bold">Observations</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          className="h-24"
+                          placeholder="One student had trouble understanding the concept of..."
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription className="font-bold">
+                        Write any observations, concerns, student struggles,
+                        etc.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {index > 0 && (
+                  <Button
+                    type="button"
+                    onClick={() => deleteInput(index)}
+                    className="bg-red-400 hover:bg-red-500 rounded-md text-white font-semibold mt-2"
+                  >
+                    Delete
+                  </Button>
+                )}
+              </div>
+            ))}
+
+            <Button
+              type="button"
+              onClick={addNewInputs}
+              className="bg-blue-400 hover:bg-blue-500 rounded-md text-white font-semibold"
+            >
+              Add Topic
+            </Button>
+          </div>
+
+          <div className="flex justify-end">
             <Button
               type="submit"
-              className="bg-custom-yellow hover:bg-custom-orange rounded-3xl text-white font-semibold drop-shadow-xl"
+              className="bg-custom-yellow hover:bg-custom-orange rounded-lg text-white font-semibold drop-shadow-xl"
             >
               Submit
             </Button>
@@ -246,6 +325,4 @@ const TutorForm = () => {
       </div>
     </Form>
   );
-};
-
-export default TutorForm;
+}
