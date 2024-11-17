@@ -14,6 +14,7 @@ import {
   SidebarSeparator,
   SidebarMenuSub,
   SidebarMenuSubItem,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import {
   Collapsible,
@@ -67,9 +68,13 @@ const navLinks = [
 export default function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader>
-        <h1 className="font-bold text-2xl">TutorEasy</h1>
-      </SidebarHeader>
+      <div className="flex justify-between items-center ml-1">
+        <SidebarHeader>
+          <h1 className="font-bold text-2xl">TutorEasy</h1>
+        </SidebarHeader>
+        <SidebarTrigger />
+      </div>
+
       <SidebarSeparator />
       <SidebarContent>
         <SidebarGroup>
