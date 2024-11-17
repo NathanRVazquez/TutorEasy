@@ -48,7 +48,7 @@ export default function RootLayout({
     // </div>
     <SidebarProvider>
       <AppSidebar />
-      <main className="flex h-screen w-full">
+      <main className="flex min-h-screen w-full">
         <div className="grow bg-blue-50">
           <DashboardHeader />
           <div className="p-4">{children}</div>
