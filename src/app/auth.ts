@@ -20,8 +20,8 @@ const handler = NextAuth({
         email: {},
         password: {},
       },
-      authorize: async (credentials) => {
-        let user = null
+      authorize: async () => {//credentials) => {
+        const user = null
  
         // // logic to salt and hash password
         // const pwHash = saltAndHashPassword(credentials.password)
