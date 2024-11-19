@@ -1,3 +1,5 @@
+"use client";
+
 import { House, Users, BookCopy, Notebook, ChevronRight } from "lucide-react";
 import {
   Sidebar,
@@ -23,6 +25,7 @@ import {
 } from "@/components/ui/collapsible";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import SessionButton from "@/components/SessionButton";
 
@@ -66,6 +69,8 @@ const navLinks = [
 // Add way to fetch all classes from professor/TA, may have to create api route and return from there to be mapped
 
 export default function AppSidebar() {
+  const pathname = usePathname();
+
   return (
     <Sidebar collapsible="icon">
       <div className="flex justify-between items-center ml-1">
@@ -124,7 +129,12 @@ export default function AppSidebar() {
                 // }
                 return (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
+                    <SidebarMenuButton
+                      asChild
+                      className={`${
+                        pathname === item.href ? "bg-slate-200" : ""
+                      }`}
+                    >
                       <Link href={item.href}>
                         <item.icon />
                         <span className="font-bold">{item.title}</span>
