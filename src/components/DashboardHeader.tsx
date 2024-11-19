@@ -17,7 +17,7 @@ const DashboardHeader = () => {
     <div className="p-4">
       <div className="flex justify-between items-center">
         <div>
-          <SidebarTrigger />
+          {/* <SidebarTrigger /> */}
           <Select>
             <SelectTrigger className="w-32">
               <SelectValue placeholder="Data Range" />

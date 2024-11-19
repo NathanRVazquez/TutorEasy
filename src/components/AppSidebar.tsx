@@ -1,3 +1,5 @@
+"use client";
+
 import { House, Users, BookCopy, Notebook, ChevronRight } from "lucide-react";
 import {
   Sidebar,
@@ -12,7 +14,9 @@ import {
   SidebarFooter,
   SidebarRail,
   SidebarSeparator,
-  SidebarMenuSub
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import {
   Collapsible,
@@ -21,6 +25,7 @@ import {
 } from "@/components/ui/collapsible";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import SessionButton from "@/components/SessionButton";
 
@@ -64,11 +69,17 @@ const navLinks = [
 // Add way to fetch all classes from professor/TA, may have to create api route and return from there to be mapped
 
 export default function AppSidebar() {
+  const pathname = usePathname();
+
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader>
-        <h1 className="font-bold text-2xl">TutorEasy</h1>
-      </SidebarHeader>
+      <div className="flex justify-between items-center ml-1">
+        <SidebarHeader>
+          <h1 className="font-bold text-2xl">TutorEasy</h1>
+        </SidebarHeader>
+        <SidebarTrigger />
+      </div>
+
       <SidebarSeparator />
       <SidebarContent>
         <SidebarGroup>
@@ -76,49 +87,54 @@ export default function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {navLinks.map((item) => {
-                if (item.href === "/dashboard/classes") {
-                  return (
-                    <Collapsible
-                      key={item.title}
-                      asChild
-                      defaultOpen
-                      className="group/collapsible"
-                    >
-                      <SidebarMenuItem>
-                        <CollapsibleTrigger asChild>
-                          <SidebarMenuItem key={item.title}>
-                            <SidebarMenuButton asChild tooltip={item.title}>
-                              <Link href={item.href}>
-                                <item.icon />
-                                <span className="font-bold">{item.title}</span>
-                                <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                              </Link>
-                            </SidebarMenuButton>
-                          </SidebarMenuItem>
-                        </CollapsibleTrigger>
-                        <CollapsibleContent>
-                          <SidebarMenuSub>
-                            {/* Map through all classes of professor/TA */}
-                            <SidebarMenuButton asChild>
-                              <Link href={`${item.href}/:classId`}>
-                                <span className="font-bold">Class 1</span>
-                              </Link>
-                            </SidebarMenuButton>
-                            <SidebarMenuButton asChild>
-                              <Link href={`${item.href}/:classId`}>
-                                <span className="font-bold">Class 2</span>
-                              </Link>
-                            </SidebarMenuButton>
-                            {/* End of map */}
-                          </SidebarMenuSub>
-                        </CollapsibleContent>
-                      </SidebarMenuItem>
-                    </Collapsible>
-                  );
-                }
+                // if (item.href === "/dashboard/classes") {
+                //   return (
+                //     <Collapsible
+                //       key={item.title}
+                //       asChild
+                //       defaultOpen
+                //       className="group/collapsible"
+                //     >
+                //       <SidebarMenuItem>
+                //         <CollapsibleTrigger asChild>
+                //           <SidebarMenuItem key={item.title}>
+                //             <SidebarMenuButton asChild tooltip={item.title}>
+                //               <Link href={item.href}>
+                //                 <item.icon />
+                //                 <span className="font-bold">{item.title}</span>
+                //                 <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                //               </Link>
+                //             </SidebarMenuButton>
+                //           </SidebarMenuItem>
+                //         </CollapsibleTrigger>
+                //         <CollapsibleContent>
+                //           <SidebarMenuSub>
+                //             {/* Map through all classes of professor/TA */}
+                //             <SidebarMenuButton asChild>
+                //               <Link href={`${item.href}/:classId`}>
+                //                 <span className="font-bold">Class 1</span>
+                //               </Link>
+                //             </SidebarMenuButton>
+                //             <SidebarMenuButton asChild>
+                //               <Link href={`${item.href}/:classId`}>
+                //                 <span className="font-bold">Class 2</span>
+                //               </Link>
+                //             </SidebarMenuButton>
+                //             {/* End of map */}
+                //           </SidebarMenuSub>
+                //         </CollapsibleContent>
+                //       </SidebarMenuItem>
+                //     </Collapsible>
+                //   );
+                // }
                 return (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
+                    <SidebarMenuButton
+                      asChild
+                      className={`${
+                        pathname === item.href ? "bg-slate-200" : ""
+                      }`}
+                    >
                       <Link href={item.href}>
                         <item.icon />
                         <span className="font-bold">{item.title}</span>
