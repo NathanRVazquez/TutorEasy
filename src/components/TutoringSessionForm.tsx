@@ -107,8 +107,8 @@ export default function TutoringSessionForm() {
 
     const formData = {
       ...values,
-      start_time: values.start_time.toLocaleString(),
-      end_time: values.end_time.toLocaleString(),
+      start_time: values.start_time.toTimeString(),
+      end_time: values.end_time.toTimeString(),
     };
 
     console.log(formData);
@@ -116,10 +116,15 @@ export default function TutoringSessionForm() {
       // send the form data to the db
       toast({
         title: "Form submitted",
-        description: "Your tutoring session has been submitted successfully",
+        description: "Your tutoring session has been successfully submitted!",
       });
     } catch (error) {
       console.error(error);
+      toast({
+        title: "Error submitting form",
+        description: `${error}`,
+        variant: "destructive",
+      });
     }
   }
 
@@ -168,10 +173,7 @@ export default function TutoringSessionForm() {
                   <FormLabel className="font-bold">Shift Start Time</FormLabel>
                   <DatetimePicker
                     {...field}
-                    format={[
-                      ["months", "days", "years"],
-                      ["hours", "minutes", "am/pm"],
-                    ]}
+                    format={[[], ["hours", "minutes", "am/pm"]]}
                   />
                   <FormDescription className="font-bold">
                     Select your start shift time.
@@ -188,10 +190,7 @@ export default function TutoringSessionForm() {
                   <FormLabel className="font-bold">Shift End Time</FormLabel>
                   <DatetimePicker
                     {...field}
-                    format={[
-                      ["months", "days", "years"],
-                      ["hours", "minutes", "am/pm"],
-                    ]}
+                    format={[[], ["hours", "minutes", "am/pm"]]}
                   />
                   <FormDescription className="font-bold">
                     Select your end shift time.
