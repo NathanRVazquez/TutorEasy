@@ -1,6 +1,6 @@
 "use client";
 
-import { House, Users, BookCopy, Notebook, ChevronRight } from "lucide-react";
+import { House, Users, BookCopy, Notebook} from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -14,15 +14,13 @@ import {
   SidebarFooter,
   SidebarRail,
   SidebarSeparator,
-  SidebarMenuSub,
-  SidebarMenuSubItem,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+// import {
+//   Collapsible,
+//   CollapsibleContent,
+//   CollapsibleTrigger,
+// } from "@/components/ui/collapsible";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";

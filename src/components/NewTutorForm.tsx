@@ -13,6 +13,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -141,7 +142,7 @@ export default function TutoringSessionForm() {
                   <Input placeholder="First Middle Last" {...field} />
                 </FormControl>
                 <FormDescription className="font-bold">
-                  Enter the TAs Name
+                  Enter the TA&apos;s Name
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -158,7 +159,7 @@ export default function TutoringSessionForm() {
                   <Input type="number" placeholder="12345678" {...field} />
                 </FormControl>
                 <FormDescription className="font-bold">
-                  Enter the TA's EMPLID
+                  Enter the TA&apos;s EMPLID
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -175,7 +176,7 @@ export default function TutoringSessionForm() {
                   <Input placeholder="example@myhunter.cuny.edu" {...field} />
                 </FormControl>
                 <FormDescription className="font-bold">
-                  Enter the TA's email
+                  Enter the TA&apos;s  email
                 </FormDescription>
                 <FormMessage />
               </FormItem>

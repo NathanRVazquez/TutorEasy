@@ -230,8 +230,8 @@ export default function TutoringSessionForm() {
           <div>
             <p className="text-sm font-semibold">
               Fill in a topic and the relevant concerns to that topic. You can
-              add a new topic by clicking the "Add Topic" button. You can also
-              delete a topic by clicking the "Delete" button.
+              add a new topic by clicking the &quot Add Topic &quot button. You can also
+              delete a topic by clicking the &quot Delete &quot button.
             </p>
           </div>
         </div>

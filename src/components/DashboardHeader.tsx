@@ -8,8 +8,6 @@ import {
 } from "@/components/ui/select";
 import { useSession } from "next-auth/react";
 
-import { SidebarTrigger } from "@/components/ui/sidebar";
-
 const DashboardHeader = () => {
   const { data: session } = useSession();
 
