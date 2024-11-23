@@ -2,6 +2,8 @@ import NextAuth from "next-auth";
 import AzureADProvider from "next-auth/providers/azure-ad";
 import Credentials from "next-auth/providers/credentials"
 
+import  prisma from '@/lib/db'; 
+import { CounterClockwiseClockIcon } from "@radix-ui/react-icons";
 
 
 const { AZURE_AD_CLIENT_ID, AZURE_AD_CLIENT_SECRET, AZURE_AD_TENANT_ID } =
@@ -20,9 +22,33 @@ const handler = NextAuth({
         email: {},
         password: {},
       },
-      authorize: async () => {//credentials) => {
+      // authorize: async () => {//credentials) => {
+      authorize: async (credentials) => {
+        if(!credentials){
+          throw new Error();
+        }
         const user = null
- 
+
+        // const newUser = await prisma.users.create({data:{
+        //   Student_Email:credentials?.email,
+        //   Password:credentials?.password,
+        //   Signin_Method:'Email/Password',
+        //   Student_Name:'undefined'
+        // }});
+        // console.log(newUser)
+        console.log('signin page');
+        try{
+        const dbUser = await prisma.users.findUnique({ where: { Student_Email: credentials.email.toLowerCase() } });
+        console.log(dbUser);
+        if (!dbUser) {
+          throw new Error;
+        }
+        }catch{
+          throw new Error;
+        }
+        console.log("success");
+        
+      
         // // logic to salt and hash password
         // const pwHash = saltAndHashPassword(credentials.password)
  
@@ -36,7 +62,7 @@ const handler = NextAuth({
         // }
  
         // return user object with their profile data
-        return user
+        return user;
       },
     }),
     AzureADProvider({

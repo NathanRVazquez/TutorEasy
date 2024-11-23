@@ -1,6 +1,19 @@
+# Node Backend for TutorEasy
+
+### Commands to make empty orphaned branch
+- git switch --orphan <new branch>
+- git commit --allow-empty -m "Initial commit on orphan branch"
+- git push -u origin <new branch>
+- git push -d origin <branch name>
+- git push --set-upstream origin <new branch name>
+- git config --global user.name "My Name"
+- git config --global user.email "myemail@example.com"
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
+
+
 
 First, run the development server:
 
