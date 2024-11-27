@@ -10,7 +10,7 @@ import PreviousMap from "postcss/lib/previous-map";
 
 
 
-export default function SignInPage() {
+export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -72,11 +72,6 @@ export default function SignInPage() {
               disabled={isLoading}
               className="text-white w-full bg-gradient-to-r from-green-600 to-orange-700 hover:from-green-700 hover:to-orange-800
                font-bold py-3 rounded-full transition-all duration-300 transform hover:scale-105"
-               onClick={  async()=>{ try {
-                signIn("credentials", {callbackUrl: "/dashboard"});
-              } catch (error) {
-                console.error(error);
-              }}}
             >
               Submit
             </Button>
