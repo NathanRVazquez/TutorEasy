@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  User_ID       String    @id @default(cuid())
+  Student_Email String    @unique
+  Password      String
+  Student_Name  String
+  Join_Date     DateTime  @default(now())
+  Signin_Method String
+  User_Type     User_Type @default(Student)
+}
+
+enum User_Type {
+  Professor
+  Student
+  TA
+}
+
+// model TA_Schedules{
+//   TA_ID String @id
+//   Class_Assigned String
+//   Assigned_DOW String 
+//   Shift_Start_Time DateTime
+//   Shift_End_Time DateTime
+// }
+
+// model Professor_Classes{
+//   Professor_ID String @id
+//   Class_ID String
+// }
+
+// model Classes{
+//   Class_ID String @id
+//   Class_Name String
+//   Class_Section Int
+//   Tutoring_Guideline String
+// }
+
+// model Class_Insights{
+//   Class_ID String @id
+//   Student_Insights String
+//   Tutor_Insights String
+// }
+
+model Tutoring_Sessions{
+  Session_ID String @id
+  TA_ID String 
+  Class_Tutored String
+  Session_Location String
+  Chapter_Reviewed String
+  Class_Section Int
+  Session_Start_Time DateTime
+  Session_End_Time DateTime
+  Students_Tutored Int
+}
+
+// model Attendee_List{
+//   Session_ID String @id
+//   Student_Name String
+//   Student_Email String
+//   Student_ID String
+// }
+
+model Session_Insights{
+  Session_ID String @id
+  Student_Insights String
+  Tutor_Insight String
+}
+
+// model Session_Concerns{
+//   Session_ID String @id
+//   Topic String
+//   Concerns String
+// }
+
