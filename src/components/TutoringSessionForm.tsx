@@ -4,7 +4,7 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-
+import { useRouter } from "next/router";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -101,7 +101,7 @@ export default function TutoringSessionForm() {
     }
   }
 
-  function onSubmit(values: z.infer<typeof schema>) {
+  async function onSubmit(values: z.infer<typeof schema>) {
     console.log(values);
     // this is where we send the form data to the db
 
@@ -111,8 +111,26 @@ export default function TutoringSessionForm() {
       end_time: values.end_time.toTimeString(),
     };
 
-    console.log(formData);
     try {
+      const response = await fetch("/api/summary", {
+        method: "POST",
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      let data;
+      try {
+        data = await response.json();
+      } catch (error) {
+        data = null;
+      }
+
+      console.log("Response Data:", data);
+      console.log("Form Data Sent:", formData);
+
       // send the form data to the db
       toast({
         title: "Form submitted",
@@ -230,8 +248,8 @@ export default function TutoringSessionForm() {
           <div>
             <p className="text-sm font-semibold">
               Fill in a topic and the relevant concerns to that topic. You can
-              add a new topic by clicking the &apos;Add Topic&apos; button. You can also
-              delete a topic by clicking the &apos;Delete&apos; button.
+              add a new topic by clicking the &apos;Add Topic&apos; button. You
+              can also delete a topic by clicking the &apos;Delete&apos; button.
             </p>
           </div>
         </div>
