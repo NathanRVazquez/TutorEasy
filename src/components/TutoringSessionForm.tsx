@@ -103,7 +103,6 @@ export default function TutoringSessionForm() {
 
   async function onSubmit(values: z.infer<typeof schema>) {
     console.log(values);
-    // this is where we send the form data to the db
 
     const formData = {
       ...values,
@@ -112,23 +111,18 @@ export default function TutoringSessionForm() {
     };
 
     try {
+      // calling the summary route to create the overall and specific summaries
       const response = await fetch("/api/summary", {
         method: "POST",
         body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      const data = await response.json();
 
-      let data;
-      try {
-        data = await response.json();
-      } catch (error) {
-        data = null;
-      }
-
-      console.log("Response Data:", data);
+      console.log("Response:", data);
       console.log("Form Data Sent:", formData);
 
       // send the form data to the db
