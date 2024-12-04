@@ -26,7 +26,7 @@ enum User_Type {
   TA
 }
 
-model ta_schedules{
+model ta_schedules {
   TA_ID String @id
   Class_Assigned String
   Assigned_DOW String 
