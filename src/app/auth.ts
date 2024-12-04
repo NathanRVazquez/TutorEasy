@@ -1,10 +1,9 @@
 import NextAuth from "next-auth";
-import AzureADProvider from "next-auth/providers/azure-ad";
-import Credentials from "next-auth/providers/credentials"
+import MicrosoftEntraId from "next-auth/providers/microsoft-entra-id";
+import Credentials from "next-auth/providers/credentials";
 
-import  prisma from '@/lib/db'; 
+import prisma from "@/lib/db";
 import { CounterClockwiseClockIcon } from "@radix-ui/react-icons";
-
 
 const { AZURE_AD_CLIENT_ID, AZURE_AD_CLIENT_SECRET, AZURE_AD_TENANT_ID } =
   process.env;
@@ -12,64 +11,81 @@ if (!AZURE_AD_CLIENT_ID || !AZURE_AD_CLIENT_SECRET || !AZURE_AD_TENANT_ID) {
   throw new Error("The Azure AD environment variables are not set.");
 }
 const handler = NextAuth({
-//  const {handlers, auth, signIn, signOut} = NextAuth({
+  //  const {handlers, auth, signIn, signOut} = NextAuth({
   secret: AZURE_AD_CLIENT_SECRET,
   providers: [
     Credentials({
       // You can specify which fields should be submitted, by adding keys to the `credentials` object.
       // e.g. domain, username, password, 2FA token, etc.
       credentials: {
-        email: {},
-        password: {},
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "Please enter your email",
+        },
+        password: {
+          label: "Password",
+          type: "password",
+        },
       },
       // authorize: async () => {//credentials) => {
-      authorize: async (credentials) => {
-        if(!credentials){
-          throw new Error();
-        }
-        const user = null
+      //   authorize: async (credentials) => {
+      //     if(!credentials){
+      //       throw new Error();
+      //     }
+      //     const user = null
 
-        // const newUser = await prisma.users.create({data:{
-        //   Student_Email:credentials?.email,
-        //   Password:credentials?.password,
-        //   Signin_Method:'Email/Password',
-        //   Student_Name:'undefined'
-        // }});
-        // console.log(newUser)
-        console.log('signin page');
-        try{
-        const dbUser = await prisma.users.findUnique({ where: { Student_Email: credentials.email.toLowerCase() } });
-        console.log(dbUser);
-        if (!dbUser) {
-          throw new Error;
-        }
-        }catch{
-          throw new Error;
-        }
-        console.log("success");
-        
-      
-        // // logic to salt and hash password
-        // const pwHash = saltAndHashPassword(credentials.password)
- 
-        // // logic to verify if the user exists
-        // user = await getUserFromDb(credentials.email, pwHash)
- 
-        // if (!user) {
-        //   // No user found, so this is their first attempt to login
-        //   // meaning this is also the place you could do registration
-        //   throw new Error("User not found.")
-        // }
- 
-        // return user object with their profile data
-        return user;
-      },
+      //     // const newUser = await prisma.users.create({data:{
+      //     //   Student_Email:credentials?.email,
+      //     //   Password:credentials?.password,
+      //     //   Signin_Method:'Email/Password',
+      //     //   Student_Name:'undefined'
+      //     // }});
+      //     // console.log(newUser)
+      //     console.log('signin page');
+      //     // try{
+      //     //   const dbUser = await prisma.users.findUnique(
+      //     //     { where: {
+      //     //       Student_Email: credentials.email.toLowerCase()
+      //     //       }
+      //     //     });
+
+      //     //   if (!dbUser) {
+      //     //     throw new Error;
+      //     //   }
+
+      //     //   console.log(dbUser);
+      //     //   if(dbUser.Password == credentials.password){
+      //     //     console.log("success");
+      //     //   }
+
+      //     //   return user;
+
+      //     // }catch{
+      //     //   throw new Error;
+      //     // }
+
+      //     // // logic to salt and hash password
+      //     // const pwHash = saltAndHashPassword(credentials.password)
+
+      //     // // logic to verify if the user exists
+      //     // user = await getUserFromDb(credentials.email, pwHash)
+
+      //     // if (!user) {
+      //     //   // No user found, so this is their first attempt to login
+      //     //   // meaning this is also the place you could do registration
+      //     //   throw new Error("User not found.")
+      //     // }
+
+      //     // return user object with their profile data
+      //     // return user;
+      //   },
     }),
-    AzureADProvider({
-      clientId: AZURE_AD_CLIENT_ID,
-      clientSecret: AZURE_AD_CLIENT_SECRET,
-      tenantId: AZURE_AD_TENANT_ID,
-    }),
+    // MicrosoftEntraId({
+    //   clientId: AZURE_AD_CLIENT_ID,
+    //   clientSecret: AZURE_AD_CLIENT_SECRET,
+    //   issuer: AZURE_AD_TENANT_ID,
+    // }),
   ],
   callbacks: {
     async jwt({ token, account }) {
@@ -89,9 +105,6 @@ const handler = NextAuth({
       }
       return session;
     },
-
-
-    
   },
 });
 export { handler as GET, handler as POST };

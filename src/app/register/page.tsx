@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label"
 import { signIn } from "next-auth/react";
-import PreviousMap from "postcss/lib/previous-map";
 
 
 
@@ -20,7 +19,7 @@ export default function RegisterPage() {
     setIsLoading(true)
     // Simulating API call
     setTimeout(() => setIsLoading(false), 2000)
-
+    // call to function to create user goes here
   }
 
   return (
@@ -31,7 +30,7 @@ export default function RegisterPage() {
       <div className="relative">
         <div className="bg-green-900/30 backdrop-blur-md rounded-3xl p-8 w-full max-w-md border border-green-200/20 shadow-2xl ">
           <div className="flex items-center justify-center mb-8">
-            <h1 className="text-3xl font-bold text-green-100 ">EduTrack</h1>
+            <h1 className="text-3xl font-bold text-green-100 ">Register for TutorEasy</h1>
           </div>
           
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -62,41 +61,18 @@ export default function RegisterPage() {
             </div>
             
             
-          
-          <div className="mt-6 text-center">
-            <a href="#" className="text-white transition-colors">Forgot your credentials?</a>
-          </div>
-
-          <Button 
+            <Button 
               type="submit" 
               disabled={isLoading}
               className="text-white w-full bg-gradient-to-r from-green-600 to-orange-700 hover:from-green-700 hover:to-orange-800
-               font-bold py-3 rounded-full transition-all duration-300 transform hover:scale-105"
+              font-bold py-3 rounded-full transition-all duration-300 transform hover:scale-105"
             >
               Submit
             </Button>
-
-            <br />
-            <br />
-            <Label>
-            <Button 
-              // type="" 
-              disabled={isLoading}
-              className="text-white w-full bg-gradient-to-r from-blue-500 to-purple-700 hover:from-blue-700 hover:to-purple-800
-               font-bold py-3 rounded-full transition-all duration-300 transform hover:scale-105"
-               onClick={  async()=>{ try {
-                signIn("azure-ad", {callbackUrl: "/dashboard"});
-              } catch (error) {
-                console.error(error);
-              }}}
-            >
-              Login Using Microsoft
-            </Button>
-            </Label>
           </form>
 
           <div className="mt-8 pt-6 border-t border-green-200/20 text-center">
-            <p className="text-green-200/70 mb-2">New to EduTrack?</p>
+            <p className="text-green-200/70 mb-2">New to TutorEasy?</p>
             <a href="mailto:nathanrvazquez@gmail.com">
             <Button variant="outline" className="text-black border-green-200/50 hover:bg-green-100/50">
               Request Institutional Access
