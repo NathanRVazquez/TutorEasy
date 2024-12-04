@@ -38,15 +38,26 @@ const handler = NextAuth({
         // console.log(newUser)
         console.log('signin page');
         try{
-        const dbUser = await prisma.users.findUnique({ where: { Student_Email: credentials.email.toLowerCase() } });
-        console.log(dbUser);
-        if (!dbUser) {
-          throw new Error;
-        }
+          const dbUser = await prisma.users.findUnique(
+            { where: { 
+              Student_Email: credentials.email.toLowerCase() 
+              } 
+            });
+
+          if (!dbUser) {
+            throw new Error;
+          }
+
+          console.log(dbUser);
+          if(dbUser.Password == credentials.password){
+            console.log("success");
+          }
+
+          return user;
+
         }catch{
           throw new Error;
         }
-        console.log("success");
         
       
         // // logic to salt and hash password
@@ -62,7 +73,7 @@ const handler = NextAuth({
         // }
  
         // return user object with their profile data
-        return user;
+        // return user;
       },
     }),
     AzureADProvider({
