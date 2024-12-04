@@ -6,15 +6,18 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
-model Users {
-  User_ID       String    @id @default(cuid())
-  Student_Email String    @unique
-  Password      String
-  Student_Name  String
-  Join_Date     DateTime  @default(now())
-  Signin_Method String
-  User_Type     User_Type @default(Student)
+// update constraints for all columns
+model users {
+  User_ID           String    @id @default(cuid())
+  Email             String    @unique
+  Password          String
+  Name              String
+  Join_Date         DateTime  @default(now())
+  Signin_Method     String
+  User_Type         User_Type @default(Student)
+  TA_Schedules      ta_schedules[]
+  Professor_Classes professor_classes[]
+  Tutoring_Sessions tutoring_sessions[]
 }
 
 enum User_Type {
@@ -23,34 +26,44 @@ enum User_Type {
   TA
 }
 
-// model TA_Schedules{
-//   TA_ID String @id
-//   Class_Assigned String
-//   Assigned_DOW String 
-//   Shift_Start_Time DateTime
-//   Shift_End_Time DateTime
-// }
+model ta_schedules{
+  TA_ID String @id
+  Class_Assigned String
+  Assigned_DOW String 
+  Shift_Start_Time DateTime
+  Shift_End_Time DateTime
+  user users @relation(fields:[TA_ID], references:[User_ID])
+  class classes @relation(fields:[Class_Assigned], references:[Class_ID])
+}
 
-// model Professor_Classes{
-//   Professor_ID String @id
-//   Class_ID String
-// }
+model professor_classes{
+  Professor_ID String @id
+  Class_ID String
+  user users @relation(fields:[Professor_ID], references:[User_ID])
+  class classes @relation(fields:[Class_ID], references:[Class_ID])
+}
 
-// model Classes{
-//   Class_ID String @id
-//   Class_Name String
-//   Class_Section Int
-//   Tutoring_Guideline String
-// }
+model classes{
+  Class_ID String @id @default(cuid()) @unique
+  Class_Name String
+  Class_Section Int
+  Tutoring_Guideline String
+  TA_Schedules ta_schedules[]
+  Professor_Teaching professor_classes[]
+  Tutoring_Sessions tutoring_sessions[]
+  Class_Insights class_insights?
 
-// model Class_Insights{
-//   Class_ID String @id
-//   Student_Insights String
-//   Tutor_Insights String
-// }
+}
 
-model Tutoring_Sessions{
-  Session_ID String @id
+model class_insights{
+  Class_ID String @id @unique
+  Student_Insights String
+  Tutor_Insights String
+  class classes @relation(fields:[Class_ID], references:[Class_ID])
+}
+
+model tutoring_sessions{
+  Session_ID String @id @default(cuid()) @unique
   TA_ID String 
   Class_Tutored String
   Session_Location String
@@ -59,24 +72,35 @@ model Tutoring_Sessions{
   Session_Start_Time DateTime
   Session_End_Time DateTime
   Students_Tutored Int
+  Attendees tutoring_attendees[]
+  TA users @relation(fields:[TA_ID], references:[User_ID])
+  Class classes @relation(fields:[Class_Tutored], references:[Class_ID])
+  Session_Insights session_insights?
+  Session_Concerns session_concerns?
+
 }
 
-// model Attendee_List{
-//   Session_ID String @id
-//   Student_Name String
-//   Student_Email String
-//   Student_ID String
-// }
+model tutoring_attendees{
+  Session_ID String @id
+  Student_Name String
+  Student_Email String
+  Student_ID String
+  Session tutoring_sessions @relation(fields:[Session_ID], references:[Session_ID])
 
-model Session_Insights{
+}
+
+model session_insights{
   Session_ID String @id
   Student_Insights String
   Tutor_Insight String
+  Session tutoring_sessions @relation(fields:[Session_ID], references:[Session_ID]) 
+
 }
 
-// model Session_Concerns{
-//   Session_ID String @id
-//   Topic String
-//   Concerns String
-// }
+model session_concerns{
+  Session_ID String @id
+  Topic String
+  Concerns String
+  session tutoring_sessions @relation(fields:[Session_ID], references:[Session_ID])
+}
 

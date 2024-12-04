@@ -31,7 +31,7 @@ export default function SignInPage() {
       <div className="relative">
         <div className="bg-green-900/30 backdrop-blur-md rounded-3xl p-8 w-full max-w-md border border-green-200/20 shadow-2xl ">
           <div className="flex items-center justify-center mb-8">
-            <h1 className="text-3xl font-bold text-green-100 ">EduTrack</h1>
+            <h1 className="text-3xl font-bold text-green-100 ">TutorEasy</h1>
           </div>
           
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -101,7 +101,7 @@ export default function SignInPage() {
           </form>
 
           <div className="mt-8 pt-6 border-t border-green-200/20 text-center">
-            <p className="text-green-200/70 mb-2">New to EduTrack?</p>
+            <p className="text-green-200/70 mb-2">New to TutorEasy?</p>
             <a href="mailto:nathanrvazquez@gmail.com">
             <Button variant="outline" className="text-black border-green-200/50 hover:bg-green-100/50">
               Request Institutional Access
