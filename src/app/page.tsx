@@ -84,10 +84,12 @@ const LandingPage = () => {
                 tutoring, and improve curriculum in real-time.
               </p>
               <div className="mt-8 flex items-center space-x-4">
-                <Button>
-                  Get Started
-                  <ChevronRight className="ml-2 w-4 h-4" />
-                </Button>
+                <Link href="/dashboard">
+                  <Button>
+                    Get Started
+                    <ChevronRight className="ml-2 w-4 h-4" />
+                  </Button>
+                </Link>
                 <Button variant="outline">Learn More</Button>
               </div>
             </div>
@@ -172,8 +174,7 @@ const LandingPage = () => {
               Ready to enhance your learning experience?
             </h2>
             <p className="mt-4 text-primary-foreground/80">
-              Join students, tutors, and professors who are already using
-              TutorEasy
+              Join tutors and professors who are already using TutorEasy
             </p>
             <Button className="mt-8" variant="secondary">
               Start Free Trial
@@ -185,7 +186,7 @@ const LandingPage = () => {
       {/* Footer */}
       <footer className="bg-background border-t">
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {["Product", "Company", "Resources", "Legal"].map((category) => (
               <div key={category}>
                 <h3 className="text-sm font-semibold text-muted-foreground tracking-wider uppercase">
@@ -205,7 +206,7 @@ const LandingPage = () => {
                 </ul>
               </div>
             ))}
-          </div>
+          </div> */}
           <Separator className="my-8" />
           <p className="text-center text-muted-foreground">
             © 2024 TutorEasy. All rights reserved.

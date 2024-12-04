@@ -27,7 +27,7 @@ export default async function DashboardHomePage() {
   // get the time since 1970
   const d = new Date();
   // convert the time to milliseconds
-  let curr_time = d.getTime();
+  const curr_time = d.getTime();
   // subtract a month in milliseconds. Milliseconds in minute (1000 * 60)
   // Milliseconds in hour (1000 * 60) *60
   // milliseconds in day (1000 * 60 * 60 * 24)

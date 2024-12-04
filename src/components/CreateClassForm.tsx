@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormField,
@@ -21,8 +22,11 @@ const schema = z.object({
   tutoring_guideline: z.string(),
 });
 
+type FormData = z.infer<typeof schema>;
+
 export default function CreateClassForm() {
-  const form = useForm({
+  const form = useForm<FormData>({
+    resolver: zodResolver(schema),
     defaultValues: {
       class_name: "",
       class_section: "",
@@ -30,7 +34,7 @@ export default function CreateClassForm() {
     },
   });
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (data: FormData) => {
     console.log(data);
     // Handle form submission
   };
