@@ -2,7 +2,6 @@ import React from "react";
 import AnalyticsCard from "@/components/AnalyticsCard";
 import prisma from "@/lib/db";
 import { Users } from "lucide-react";
-import { User_Type } from "@prisma/client";
 import { getDefaultAutoSelectFamilyAttemptTimeout } from "net";
 
 import { useSession } from "next-auth/react";
