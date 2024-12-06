@@ -20,6 +20,39 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 
 const LandingPage = () => {
+  const teamMembers = [
+    {
+      name: "Shohruz Ernazarov",
+      links: [
+        {
+          name: "LinkedIn",
+          url: "https://www.linkedin.com/in/shohruz-ernazarov",
+        },
+        { name: "GitHub", url: "https://github.com/ShohruzE" },
+      ],
+    },
+    {
+      name: "Ynalois Pangilinan",
+      links: [
+        {
+          name: "LinkedIn",
+          url: "https://www.linkedin.com/in/ynalois-pangilinan",
+        },
+        { name: "GitHub", url: "https://github.com/ynaloisp" },
+      ],
+    },
+    {
+      name: "Nathan Vazquez",
+      links: [
+        {
+          name: "LinkedIn",
+          url: "https://www.linkedin.com/in/nathanrvazquez/",
+        },
+        { name: "GitHub", url: "https://github.com/NathanRVazquez" },
+      ],
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
@@ -186,27 +219,37 @@ const LandingPage = () => {
       {/* Footer */}
       <footer className="bg-background border-t">
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-          {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {["Product", "Company", "Resources", "Legal"].map((category) => (
-              <div key={category}>
+          <div className="text-lg font-semibold text-muted-foreground tracking-wider text-center">
+            <p>Stay in contact with the team that made TutorEasy</p>
+            <a
+              href="https://linktr.ee/TutorEasy"
+              className="text-blue-400 text-sm"
+            >
+              Our Linktree
+            </a>
+          </div>
+
+          <div className="flex flex-cols-2 md:flex-cols-4 gap-8 mt-4 justify-center">
+            {teamMembers.map((member) => (
+              <div key={member.name}>
                 <h3 className="text-sm font-semibold text-muted-foreground tracking-wider uppercase">
-                  {category}
+                  {member.name}
                 </h3>
-                <ul className="mt-4 space-y-4">
-                  {["Features", "Security", "Pricing", "Demo"].map((item) => (
-                    <li key={item}>
+                <ul className="mt-4 space-y-1 ">
+                  {member.links.map((link) => (
+                    <li key={link.name}>
                       <a
-                        href="#"
+                        href={link.url}
                         className="text-base text-muted-foreground hover:text-foreground"
                       >
-                        {item}
+                        {link.name}
                       </a>
                     </li>
                   ))}
                 </ul>
               </div>
             ))}
-          </div> */}
+          </div>
           <Separator className="my-8" />
           <p className="text-center text-muted-foreground">
             © 2024 TutorEasy. All rights reserved.
