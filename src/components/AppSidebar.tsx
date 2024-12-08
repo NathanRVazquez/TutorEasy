@@ -1,6 +1,6 @@
 "use client";
 
-import { House, Users, BookCopy, Notebook} from "lucide-react";
+import { House, Users, BookCopy, Notebook } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -24,8 +24,6 @@ import {
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-import SessionButton from "@/components/SessionButton";
 
 // Menu items.
 const navLinks = [
@@ -147,7 +145,6 @@ export default function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <div className="space-y-2">
-          <SessionButton />
           <SidebarSeparator />
           <p className="text-center text-xs text-gray-400">
             &copy; {new Date().getFullYear()} TutorEasy
