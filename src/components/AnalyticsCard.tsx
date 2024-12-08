@@ -1,5 +1,3 @@
-"use server";
-
 import {
   Card,
   CardContent,
@@ -15,7 +13,7 @@ type AnalyticsCardProps = {
   range: string;
 };
 
-export default async function AnalyticsCard({
+export default function AnalyticsCard({
   title,
   data,
   filterData,
