@@ -6,11 +6,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useSession } from "next-auth/react";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 
 const DashboardHeader = () => {
-  const { data: session } = useSession();
-
   return (
     <div className="p-4">
       <div className="flex justify-between items-center">
@@ -28,13 +26,9 @@ const DashboardHeader = () => {
           </Select>
         </div>
         <div>
-          {session ? (
-            <>
-              <p>Welcome, {session.user?.name || "Welcome!"}</p>
-            </>
-          ) : (
-            <p className="text-red-500">You are not logged in</p>
-          )}
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
         </div>
       </div>
     </div>
