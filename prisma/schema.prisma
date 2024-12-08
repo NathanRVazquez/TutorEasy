@@ -6,101 +6,119 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 // update constraints for all columns
-model users {
-  User_ID           String    @id @default(cuid())
-  Email             String    @unique
-  Password          String
-  Name              String
-  Join_Date         DateTime  @default(now())
-  Signin_Method     String
-  User_Type         User_Type @default(Student)
-  TA_Schedules      ta_schedules[]
-  Professor_Classes professor_classes[]
-  Tutoring_Sessions tutoring_sessions[]
+
+model User {
+  userId           String            @id @default(cuid()) @map("_id")
+  clerkUserId      String            @unique
+  email            String            @unique
+  firstName        String?
+  lastName         String?
+  imageUrl         String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  userType         UserType          @default(Student)
+  tutorSchedules   TutorSchedule[]
+  professorClasses ProfessorClass[]
+  tutoringSessions TutoringSession[]
 }
 
-enum User_Type {
+// model User {
+//   userId          String    @id @default(cuid())
+//   email             String    @unique
+//   password          String
+//   name              String
+//   joinDate         DateTime  @default(now())
+//   Signin_Method     String
+//   User_Type         User_Type @default(Student)
+//   TA_Schedules      ta_schedules[]
+//   Professor_Classes professor_classes[]
+//   Tutoring_Sessions tutoring_sessions[]
+// }
+
+enum UserType {
   Professor
+  Tutor
   Student
-  TA
 }
 
-model ta_schedules {
-  TA_ID String @id
-  Class_Assigned String
-  Assigned_DOW String 
-  Shift_Start_Time DateTime
-  Shift_End_Time DateTime
-  user users @relation(fields:[TA_ID], references:[User_ID])
-  class classes @relation(fields:[Class_Assigned], references:[Class_ID])
+model TutorSchedule {
+  tutorId        String
+  assignedClass  String
+  Assigned_DOW   String
+  shiftStartTime DateTime
+  shiftEndTime   DateTime
+  user           User     @relation(fields: [tutorId], references: [userId])
+  class          Class    @relation(fields: [assignedClass], references: [classId])
+
+  @@id([tutorId, assignedClass]) // Composite primary key
 }
 
-model professor_classes{
-  Professor_ID String @id
-  Class_ID String
-  user users @relation(fields:[Professor_ID], references:[User_ID])
-  class classes @relation(fields:[Class_ID], references:[Class_ID])
+model ProfessorClass {
+  professorId String
+  classId     String
+  user        User   @relation(fields: [professorId], references: [userId])
+  class       Class  @relation(fields: [classId], references: [classId])
+
+  @@id([professorId, classId]) // Composite primary key
 }
 
-model classes{
-  Class_ID String @id @default(cuid()) @unique
-  Class_Name String
-  Class_Section Int
-  Tutoring_Guideline String
-  TA_Schedules ta_schedules[]
-  Professor_Teaching professor_classes[]
-  Tutoring_Sessions tutoring_sessions[]
-  Class_Insights class_insights?
-
+model Class {
+  classId            String            @id @unique @default(cuid())
+  className          String
+  classSection       Int
+  tutoringGuidelines String
+  tutorSchedules     TutorSchedule[]
+  professorTeaching  ProfessorClass[]
+  tutoringSessions   TutoringSession[]
+  classInsights      ClassInsights?
 }
 
-model class_insights{
-  Class_ID String @id @unique
-  Student_Insights String
-  Tutor_Insights String
-  class classes @relation(fields:[Class_ID], references:[Class_ID])
+model ClassInsights {
+  classId         String @id @unique
+  studentInsights String
+  tutorInsights   String
+  class           Class  @relation(fields: [classId], references: [classId])
 }
 
-model tutoring_sessions{
-  Session_ID String @id @default(cuid()) @unique
-  TA_ID String 
-  Class_Tutored String
-  Session_Location String
-  Chapter_Reviewed String
-  Class_Section Int
-  Session_Start_Time DateTime
-  Session_End_Time DateTime
-  Students_Tutored Int
-  Attendees tutoring_attendees[]
-  TA users @relation(fields:[TA_ID], references:[User_ID])
-  Class classes @relation(fields:[Class_Tutored], references:[Class_ID])
-  Session_Insights session_insights?
-  Session_Concerns session_concerns?
-
+model TutoringSession {
+  sessionId          String              @id @unique @default(cuid())
+  tutorId            String
+  classTutored       String
+  sessionLocation    String?
+  chapterReviewed    String?
+  classSection       Int
+  sessionStartTime   DateTime
+  sessionEndTime     DateTime
+  numStudentsTutored Int
+  attendees          TutoringAttendees[]
+  tutor              User                @relation(fields: [tutorId], references: [userId])
+  class              Class               @relation(fields: [classTutored], references: [classId])
+  sessionInsights    SessionInsights?
+  sessionConcerns    SessionConcerns?
 }
 
-model tutoring_attendees{
-  Session_ID String @id
-  Student_Name String
-  Student_Email String
-  Student_ID String
-  Session tutoring_sessions @relation(fields:[Session_ID], references:[Session_ID])
+model TutoringAttendees {
+  sessionId    String
+  studentName  String
+  studentEmail String
+  studentId    String
+  session      TutoringSession @relation(fields: [sessionId], references: [sessionId])
 
+  @@id([sessionId, studentId]) // Composite primary key
 }
 
-model session_insights{
-  Session_ID String @id
-  Student_Insights String
-  Tutor_Insight String
-  Session tutoring_sessions @relation(fields:[Session_ID], references:[Session_ID]) 
-
+model SessionInsights {
+  sessionId       String          @id
+  studentInsights String
+  tutorInsights   String
+  session         TutoringSession @relation(fields: [sessionId], references: [sessionId])
 }
 
-model session_concerns{
-  Session_ID String @id
-  Topic String
-  Concerns String
-  session tutoring_sessions @relation(fields:[Session_ID], references:[Session_ID])
+model SessionConcerns {
+  sessionId String          @id
+  topic     String
+  concerns  String
+  session   TutoringSession @relation(fields: [sessionId], references: [sessionId])
 }
-
