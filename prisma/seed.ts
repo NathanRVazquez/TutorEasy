@@ -22,6 +22,7 @@ async function main() {
           data: {
             clerkUserId: faker.string.uuid(),
             email: faker.internet.email(),
+            emplid: faker.string.alpha({ length: 9 }),
             firstName: faker.person.firstName(),
             lastName: faker.person.lastName(),
             imageUrl: faker.image.avatar(),
@@ -38,6 +39,7 @@ async function main() {
           data: {
             clerkUserId: faker.string.uuid(),
             email: faker.internet.email(),
+            emplid: faker.string.alpha({ length: 9 }),
             firstName: faker.person.firstName(),
             lastName: faker.person.lastName(),
             imageUrl: faker.image.avatar(),
@@ -54,6 +56,7 @@ async function main() {
           data: {
             clerkUserId: faker.string.uuid(),
             email: faker.internet.email(),
+            emplid: faker.string.alpha({ length: 9 }),
             firstName: faker.person.firstName(),
             lastName: faker.person.lastName(),
             imageUrl: faker.image.avatar(),

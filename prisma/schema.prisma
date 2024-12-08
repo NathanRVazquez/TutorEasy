@@ -12,6 +12,7 @@ datasource db {
 model User {
   userId           String            @id @default(cuid()) @map("_id")
   clerkUserId      String            @unique
+  emplid           String            @unique
   email            String            @unique
   firstName        String?
   lastName         String?
@@ -24,19 +25,6 @@ model User {
   tutoringSessions TutoringSession[]
 }
 
-// model User {
-//   userId          String    @id @default(cuid())
-//   email             String    @unique
-//   password          String
-//   name              String
-//   joinDate         DateTime  @default(now())
-//   Signin_Method     String
-//   User_Type         User_Type @default(Student)
-//   TA_Schedules      ta_schedules[]
-//   Professor_Classes professor_classes[]
-//   Tutoring_Sessions tutoring_sessions[]
-// }
-
 enum UserType {
   Professor
   Tutor
@@ -46,13 +34,13 @@ enum UserType {
 model TutorSchedule {
   tutorId        String
   assignedClass  String
-  Assigned_DOW   String
+  assignedDay    String
   shiftStartTime DateTime
   shiftEndTime   DateTime
   user           User     @relation(fields: [tutorId], references: [userId])
   class          Class    @relation(fields: [assignedClass], references: [classId])
 
-  @@id([tutorId, assignedClass]) // Composite primary key
+  @@id([tutorId, assignedClass, assignedDay]) // Composite primary key
 }
 
 model ProfessorClass {
@@ -102,8 +90,8 @@ model TutoringSession {
 model TutoringAttendees {
   sessionId    String
   studentName  String
-  studentEmail String
-  studentId    String
+  studentEmail String          @unique
+  studentId    String          @unique
   session      TutoringSession @relation(fields: [sessionId], references: [sessionId])
 
   @@id([sessionId, studentId]) // Composite primary key
