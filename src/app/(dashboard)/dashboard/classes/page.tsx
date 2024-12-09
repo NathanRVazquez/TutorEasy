@@ -18,13 +18,25 @@ type ClassInfo = {
 };
 
 const ClassesPage = async () => {
-  const professors_classes: ClassInfo[] = await prisma.$queryRaw`
-  SELECT *
-  FROM "classes" as c
-  JOIN "professor_classes" pc ON c."Class_ID" = pc."Class_ID"
-  JOIN "users" u_prof ON pc."Professor_ID" = u_prof."User_ID"
-  WHERE u_prof."User_ID" = 'cm48pblb00000buw0i0udjhzl';
-  `;
+  // const professors_classes: ClassInfo[] = await prisma.$queryRaw`
+  // SELECT *
+  // FROM "Class" as c
+  // JOIN "professor_classes" pc ON c."Class_ID" = pc."Class_ID"
+  // JOIN "users" u_prof ON pc."Professor_ID" = u_prof."User_ID"
+  // WHERE u_prof."User_ID" = 'cm4gjzdsl0002usf8qnvofpq3';
+  // `;
+
+  const classes = await prisma.class.findMany({
+    where: {
+      professorTeaching: {
+        some: {
+          professorId: "cm4gjzdsl0002usf8qnvofpq3",
+        },
+      },
+    },
+  });
+
+  console.log(classes);
 
   async function createClass(
     Class_Name: string,
@@ -64,20 +76,20 @@ const ClassesPage = async () => {
         <Button>Create New Class</Button>
       </Link>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-        {professors_classes.map((class_info) => (
+        {classes.map((cls) => (
           <Card
-            key={class_info["Class_ID"]}
+            key={cls.classId}
             className="bg-white rounded-md p-4 drop-shadow-md"
           >
             <CardHeader>
-              <CardTitle>{class_info["Class_Name"]}</CardTitle>
+              <CardTitle>{cls.className}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p>Section: {class_info["Class_Section"]}</p>
-              <p>Guideline: {class_info["Tutoring_Guideline"]}</p>
+              <p>Section: {cls.classSection}</p>
+              <p>Guideline: {cls.tutoringGuidelines}</p>
             </CardContent>
             <CardFooter>
-              <Link href={`/dashboard/classes/${class_info["Class_ID"]}`}>
+              <Link href={`/dashboard/classes/${cls.classId}`}>
                 <Button>See More</Button>
               </Link>
             </CardFooter>

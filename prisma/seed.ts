@@ -117,16 +117,17 @@ async function main() {
           assignedClasses.map(async (cls: { classId: string }) => {
             return await prisma.tutorSchedule.upsert({
               where: {
-                tutorId_assignedClass: {
+                tutorId_assignedClass_assignedDay: {
                   tutorId: tutor.userId,
                   assignedClass: cls.classId,
+                  assignedDay: faker.date.weekday(),
                 },
               },
               update: {},
               create: {
                 tutorId: tutor.userId,
                 assignedClass: cls.classId,
-                Assigned_DOW: faker.date.weekday(),
+                assignedDay: faker.date.weekday(),
                 shiftStartTime: faker.date.soon(),
                 shiftEndTime: faker.date.soon(),
               },
@@ -167,15 +168,15 @@ async function main() {
               where: {
                 sessionId_studentId: {
                   sessionId: session.sessionId,
-                  studentId: faker.string.uuid(),
+                  studentId: student.userId,
                 },
               },
               update: {},
               create: {
                 sessionId: session.sessionId,
                 studentName: `${student.firstName} ${student.lastName}`,
-                studentEmail: student.email,
-                studentId: faker.string.uuid(),
+                studentEmail: `${student.email}-${session.sessionId}`, // Ensure unique email for each session
+                studentId: student.userId,
               },
             });
           })

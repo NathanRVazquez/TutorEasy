@@ -22,7 +22,7 @@ const ClassPage = async () => {
       <Link href="/dashboard/classes">
         <Button>Back to Classes</Button>
       </Link>
-      <Link href="/dashboard/classes/[classId]/new-tutor">
+      <Link href="/dashboard/tutors/new-tutor">
         <Button>Add New Tutor</Button>
       </Link>
     </div>
