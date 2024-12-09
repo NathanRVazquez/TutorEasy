@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { Github, Loader } from "lucide-react";
+import { Icons } from "@/components/ui/icons";
 
 export default function SignUpPage() {
   return (
@@ -32,10 +32,10 @@ export default function SignUpPage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="grid gap-y-4">
-                    {/* <div className="">
-                      <Clerk.Connection name="github" asChild>
+                    <div className="flex flex-col justify-center items-center gap-2">
+                      <Clerk.Connection name="microsoft" asChild>
                         <Button
-                          size="sm"
+                          size="lg"
                           variant="outline"
                           type="button"
                           disabled={isGlobalLoading}
@@ -43,51 +43,22 @@ export default function SignUpPage() {
                           <Clerk.Loading scope="provider:github">
                             {(isLoading) =>
                               isLoading ? (
-                                <Loader className="size-4 animate-spin" />
+                                <Icons.spinner className="size-4 animate-spin" />
                               ) : (
                                 <>
-                                  <Github className="mr-2 size-4" />
-                                  GitHub
+                                  <Icons.microsoft className="mr-2 size-10" />
+                                  Microsoft
                                 </>
                               )
                             }
                           </Clerk.Loading>
                         </Button>
                       </Clerk.Connection>
+                      <p className="text-xs text-green-600">Recommended</p>
                     </div>
                     <p className="flex items-center gap-x-3 text-sm text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
                       or
-                    </p> */}
-
-                    <Clerk.Field name="firstName" className="space-y-2">
-                      <Clerk.Label asChild>
-                        <Label>First Name</Label>
-                      </Clerk.Label>
-                      <Clerk.Input type="text" required asChild>
-                        <Input />
-                      </Clerk.Input>
-                      <Clerk.FieldError className="block text-sm text-destructive" />
-                    </Clerk.Field>
-
-                    <Clerk.Field name="lastName" className="space-y-2">
-                      <Clerk.Label asChild>
-                        <Label>Last Name</Label>
-                      </Clerk.Label>
-                      <Clerk.Input type="text" required asChild>
-                        <Input />
-                      </Clerk.Input>
-                      <Clerk.FieldError className="block text-sm text-destructive" />
-                    </Clerk.Field>
-
-                    <Clerk.Field name="username" className="space-y-2">
-                      <Clerk.Label asChild>
-                        <Label>EMPLID</Label>
-                      </Clerk.Label>
-                      <Clerk.Input type="text" required asChild>
-                        <Input />
-                      </Clerk.Input>
-                      <Clerk.FieldError className="block text-sm text-destructive" />
-                    </Clerk.Field>
+                    </p>
 
                     <Clerk.Field name="emailAddress" className="space-y-2">
                       <Clerk.Label asChild>
@@ -117,7 +88,7 @@ export default function SignUpPage() {
                           <Clerk.Loading>
                             {(isLoading) => {
                               return isLoading ? (
-                                <Loader className="size-4 animate-spin" />
+                                <Icons.spinner className="size-4 animate-spin" />
                               ) : (
                                 "Continue"
                               );
@@ -135,7 +106,7 @@ export default function SignUpPage() {
                 </Card>
               </SignUp.Step>
 
-              <SignUp.Step name="continue">
+              {/* <SignUp.Step name="continue">
                 <Card className="w-full sm:w-96">
                   <CardHeader>
                     <CardTitle>Continue registration</CardTitle>
@@ -148,7 +119,7 @@ export default function SignUpPage() {
                           <Clerk.Loading>
                             {(isLoading) => {
                               return isLoading ? (
-                                <Loader className="size-4 animate-spin" />
+                                <Icons.spinner className="size-4 animate-spin" />
                               ) : (
                                 "Continue"
                               );
@@ -159,7 +130,7 @@ export default function SignUpPage() {
                     </div>
                   </CardFooter>
                 </Card>
-              </SignUp.Step>
+              </SignUp.Step> */}
 
               <SignUp.Step name="verifications">
                 <SignUp.Strategy name="email_code">
@@ -234,7 +205,7 @@ export default function SignUpPage() {
                             <Clerk.Loading>
                               {(isLoading) => {
                                 return isLoading ? (
-                                  <Loader className="size-4 animate-spin" />
+                                  <Icons.spinner className="size-4 animate-spin" />
                                 ) : (
                                   "Continue"
                                 );

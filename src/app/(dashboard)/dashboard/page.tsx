@@ -2,6 +2,7 @@ import React from "react";
 import AnalyticsCard from "@/components/AnalyticsCard";
 import prisma from "@/lib/db";
 import { UserType } from "@prisma/client";
+import { auth } from "@clerk/nextjs/server";
 
 export default async function DashboardHomePage() {
   // retrieve the count of all users with the role - TA
@@ -33,6 +34,18 @@ export default async function DashboardHomePage() {
   // AND u_prof."userId" = 'cm4eoknda0001usw0cb9ymo3k'
   // AND u_prof."UserType" = 'Professor';
   // `;
+
+  const { userId } = await auth();
+
+  console.log(userId);
+
+  const user = await prisma.user.findFirst({
+    where: {
+      clerkUserId: userId!,
+    },
+  });
+
+  console.log(user);
 
   const professorId = "cm4evzfxc0000us5kn8xyw628"; // Test professor ID from seeded data
 
