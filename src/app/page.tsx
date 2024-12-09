@@ -19,6 +19,9 @@ import {
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+
 const LandingPage = () => {
   const teamMembers = [
     {
@@ -55,50 +58,7 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="fixed w-full bg-background/80 backdrop-blur-md z-50 border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
-              {/* Logo SVG */}
-              {/* <svg className="w-8 h-8" viewBox="0 0 400 100">
-                <g transform="translate(105, 0) scale(0.3)">
-                  <path
-                    d="M40,50 Q55,50 65,50 T80,50 L90,20 L100,80 L110,50 L120,50 Q135,50 145,50"
-                    fill="none"
-                    stroke="hsl(var(--primary))"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M165,35 L165,65 M150,50 L180,50"
-                    stroke="hsl(var(--primary))"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                  />
-                  <circle
-                    cx="165"
-                    cy="50"
-                    r="25"
-                    fill="none"
-                    stroke="hsl(var(--primary))"
-                    strokeWidth="4"
-                  />
-                </g>
-              </svg> */}
-              <span className="text-xl font-bold">TutorEasy</span>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Button variant="ghost">
-                <Link href="/signin">Sign In</Link>
-              </Button>
-              <Button>
-                <Link href="/signin">Sign Up</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero Section */}
       <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
@@ -217,45 +177,7 @@ const LandingPage = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-background border-t">
-        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-          <div className="text-lg font-semibold text-muted-foreground tracking-wider text-center">
-            <p>Stay in contact with the team that made TutorEasy</p>
-            <a
-              href="https://linktr.ee/TutorEasy"
-              className="text-blue-400 text-sm"
-            >
-              Our Linktree
-            </a>
-          </div>
-
-          <div className="flex flex-cols-2 md:flex-cols-4 gap-8 mt-4 justify-center">
-            {teamMembers.map((member) => (
-              <div key={member.name}>
-                <h3 className="text-sm font-semibold text-muted-foreground tracking-wider uppercase">
-                  {member.name}
-                </h3>
-                <ul className="mt-4 space-y-1 ">
-                  {member.links.map((link) => (
-                    <li key={link.name}>
-                      <a
-                        href={link.url}
-                        className="text-base text-muted-foreground hover:text-foreground"
-                      >
-                        {link.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-          <Separator className="my-8" />
-          <p className="text-center text-muted-foreground">
-            © 2024 TutorEasy. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

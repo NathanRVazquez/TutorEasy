@@ -6,9 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
+    "@clerk/elements": "^0.21.1",
+    "@clerk/nextjs": "^6.8.0",
+    "@faker-js/faker": "^9.3.0",
     "@hookform/resolvers": "^3.9.0",
     "@prisma/client": "^6.0.1",
     "@radix-ui/react-avatar": "^1.1.1",
@@ -28,12 +32,12 @@
     "force": "^0.0.3",
     "lucide-react": "^0.452.0",
     "next": "14.2.15",
-    "next-auth": "^4.24.8",
     "openai": "^4.73.1",
     "pg": "^8.13.1",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.53.1",
+    "svix": "^1.43.0",
     "tailwind-merge": "^2.5.3",
     "tailwindcss-animate": "^1.0.7",
     "timescape": "^0.6.2",
@@ -48,6 +52,7 @@
     "postcss": "^8",
     "prisma": "^6.0.1",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
   }
 }
