@@ -16,46 +16,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const LandingPage = () => {
-  const teamMembers = [
-    {
-      name: "Shohruz Ernazarov",
-      links: [
-        {
-          name: "LinkedIn",
-          url: "https://www.linkedin.com/in/shohruz-ernazarov",
-        },
-        { name: "GitHub", url: "https://github.com/ShohruzE" },
-      ],
-    },
-    {
-      name: "Ynalois Pangilinan",
-      links: [
-        {
-          name: "LinkedIn",
-          url: "https://www.linkedin.com/in/ynalois-pangilinan",
-        },
-        { name: "GitHub", url: "https://github.com/ynaloisp" },
-      ],
-    },
-    {
-      name: "Nathan Vazquez",
-      links: [
-        {
-          name: "LinkedIn",
-          url: "https://www.linkedin.com/in/nathanrvazquez/",
-        },
-        { name: "GitHub", url: "https://github.com/NathanRVazquez" },
-      ],
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -64,7 +30,7 @@ const LandingPage = () => {
       <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="lg:grid lg:grid-cols-12 lg:gap-8">
-            <div className="lg:col-span-6">
+            <div className="lg:col-span-6 pt-4">
               <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
                 Bridging the gap between
                 <span className="block text-primary">

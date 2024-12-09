@@ -3,6 +3,7 @@
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Navbar() {
   return (
@@ -36,7 +37,9 @@ export default function Navbar() {
                 />
               </g>
             </svg> */}
-            <span className="text-xl font-bold">TutorEasy</span>
+            <Link href="/" className="text-xl font-bold">
+              TutorEasy
+            </Link>
           </div>
           <div>
             <SignedOut>
