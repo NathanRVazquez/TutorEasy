@@ -27,6 +27,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { DatetimePicker } from "@/components/ui/datetime-picker";
 
 import { useToast } from "@/hooks/use-toast";
+import { PrismaClient, Prisma } from "@prisma/client";
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -80,6 +81,7 @@ export default function TutoringSessionForm() {
   });
 
   const { toast } = useToast();
+  const prisma = new PrismaClient();
 
   function addNewInputs() {
     form.setValue("topics", [
@@ -106,8 +108,6 @@ export default function TutoringSessionForm() {
 
     const formData = {
       ...values,
-      start_time: values.start_time.toTimeString(),
-      end_time: values.end_time.toTimeString(),
     };
 
     try {
@@ -119,13 +119,19 @@ export default function TutoringSessionForm() {
           "Content-Type": "application/json",
         },
       });
-
       const data = await response.json();
 
       console.log("Response:", data);
       console.log("Form Data Sent:", formData);
 
       // send the form data to the db
+      const { observationsSummary, overallSummary } = data;
+
+      await prisma.$executeRaw`
+    INSERT INTO TutoringSession (observationsSummary, overallSummary)
+    VALUES (${observationsSummary}, ${overallSummary});
+  `;
+
       toast({
         title: "Form submitted",
         description: "Your tutoring session has been successfully submitted!",
