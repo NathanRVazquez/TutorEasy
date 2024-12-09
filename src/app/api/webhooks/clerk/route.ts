@@ -52,11 +52,17 @@ export async function POST(req: Request) {
   // Do something with payload
   // For this guide, log payload to console
   const eventType = event.type;
-  const { id, email_addresses, first_name, last_name, username, image_url } =
-    event.data as UserJSON;
+  const {
+    id,
+    email_addresses,
+    first_name,
+    last_name,
+    image_url,
+    public_metadata,
+  } = event.data as UserJSON;
   console.log(`Received webhook with ID ${id} and event type of ${eventType}`);
   console.log("Webhook payload:", body);
-  console.log("External id:", username);
+  console.log("Public metadata:", public_metadata);
 
   if (eventType === "user.created") {
     if (!id || !email_addresses) {
@@ -71,7 +77,6 @@ export async function POST(req: Request) {
       ...(first_name ? { firstName: first_name } : {}),
       ...(last_name ? { lastName: last_name } : {}),
       ...(image_url ? { imageUrl: image_url } : {}),
-      ...(username ? { emplid: username } : {}),
     };
 
     console.log("USER", user);

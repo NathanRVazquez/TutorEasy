@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { Loader } from "lucide-react";
+import { Icons } from "@/components/ui/icons";
 
 export default function SignInPage() {
   return (
@@ -32,43 +32,22 @@ export default function SignInPage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="grid gap-y-4">
-                    {/* <div className="grid grid-cols-2 gap-x-4">
-                      <Clerk.Connection name="github" asChild>
+                    <div className="flex flex-col justify-center items-center gap-2">
+                      <Clerk.Connection name="microsoft" asChild>
                         <Button
-                          size="sm"
+                          size="lg"
                           variant="outline"
                           type="button"
                           disabled={isGlobalLoading}
                         >
-                          <Clerk.Loading scope="provider:github">
+                          <Clerk.Loading scope="provider:microsoft">
                             {(isLoading) =>
                               isLoading ? (
                                 <Icons.spinner className="size-4 animate-spin" />
                               ) : (
                                 <>
-                                  <Icons.gitHub className="mr-2 size-4" />
-                                  GitHub
-                                </>
-                              )
-                            }
-                          </Clerk.Loading>
-                        </Button>
-                      </Clerk.Connection>
-                      <Clerk.Connection name="google" asChild>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          type="button"
-                          disabled={isGlobalLoading}
-                        >
-                          <Clerk.Loading scope="provider:google">
-                            {(isLoading) =>
-                              isLoading ? (
-                                <Icons.spinner className="size-4 animate-spin" />
-                              ) : (
-                                <>
-                                  <Icons.google className="mr-2 size-4" />
-                                  Google
+                                  <Icons.microsoft className="mr-2 size-10" />
+                                  Microsoft
                                 </>
                               )
                             }
@@ -78,7 +57,7 @@ export default function SignInPage() {
                     </div>
                     <p className="flex items-center gap-x-3 text-sm text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
                       or
-                    </p> */}
+                    </p>
                     <Clerk.Field name="identifier" className="space-y-2">
                       <Clerk.Label asChild>
                         <Label>Email address</Label>
@@ -96,7 +75,7 @@ export default function SignInPage() {
                           <Clerk.Loading>
                             {(isLoading) => {
                               return isLoading ? (
-                                <Loader className="size-4 animate-spin" />
+                                <Icons.spinner className="size-4 animate-spin" />
                               ) : (
                                 "Continue"
                               );
@@ -115,7 +94,7 @@ export default function SignInPage() {
                 </Card>
               </SignIn.Step>
 
-              <SignIn.Step name="choose-strategy">
+              {/* <SignIn.Step name="choose-strategy">
                 <Card className="w-full sm:w-96">
                   <CardHeader>
                     <CardTitle>Use another method</CardTitle>
@@ -125,15 +104,6 @@ export default function SignInPage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="grid gap-y-4">
-                    <SignIn.SupportedStrategy name="email_code" asChild>
-                      <Button
-                        type="button"
-                        variant="link"
-                        disabled={isGlobalLoading}
-                      >
-                        Email code
-                      </Button>
-                    </SignIn.SupportedStrategy>
                     <SignIn.SupportedStrategy name="password" asChild>
                       <Button
                         type="button"
@@ -151,7 +121,7 @@ export default function SignInPage() {
                           <Clerk.Loading>
                             {(isLoading) => {
                               return isLoading ? (
-                                <Loader className="size-4 animate-spin" />
+                                <Icons.spinner className="size-4 animate-spin" />
                               ) : (
                                 "Go back"
                               );
@@ -162,10 +132,10 @@ export default function SignInPage() {
                     </div>
                   </CardFooter>
                 </Card>
-              </SignIn.Step>
+              </SignIn.Step> */}
 
               <SignIn.Step name="verifications">
-                <SignIn.Strategy name="password">
+                {/* <SignIn.Strategy name="password">
                   <Card className="w-full sm:w-96">
                     <CardHeader>
                       <CardTitle>Check your email</CardTitle>
@@ -194,7 +164,7 @@ export default function SignInPage() {
                             <Clerk.Loading>
                               {(isLoading) => {
                                 return isLoading ? (
-                                  <Loader className="size-4 animate-spin" />
+                                  <Icons.spinner className="size-4 animate-spin" />
                                 ) : (
                                   "Continue"
                                 );
@@ -210,7 +180,7 @@ export default function SignInPage() {
                       </div>
                     </CardFooter>
                   </Card>
-                </SignIn.Strategy>
+                </SignIn.Strategy> */}
 
                 <SignIn.Strategy name="email_code">
                   <Card className="w-full sm:w-96">
@@ -275,7 +245,7 @@ export default function SignInPage() {
                             <Clerk.Loading>
                               {(isLoading) => {
                                 return isLoading ? (
-                                  <Loader className="size-4 animate-spin" />
+                                  <Icons.spinner className="size-4 animate-spin" />
                                 ) : (
                                   "Continue"
                                 );
@@ -283,11 +253,11 @@ export default function SignInPage() {
                             </Clerk.Loading>
                           </Button>
                         </SignIn.Action>
-                        <SignIn.Action navigate="choose-strategy" asChild>
+                        {/* <SignIn.Action navigate="choose-strategy" asChild>
                           <Button size="sm" variant="link">
                             Use another method
                           </Button>
-                        </SignIn.Action>
+                        </SignIn.Action> */}
                       </div>
                     </CardFooter>
                   </Card>
