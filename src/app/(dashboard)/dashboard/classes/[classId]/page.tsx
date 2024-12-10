@@ -4,9 +4,16 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import NewTutorForm from "@/components/NewTutorForm";
 
-const ClassPage = async () => {
-  // get class id from query paramaters
+type Params = {
+  params: {
+    classId: string;
+  };
+};
 
+const ClassPage = async ({ params }: Params) => {
+  // get class id from query paramaters
+  const classId = params.classId;
+  console.log(classId);
   // const class_info: {}[] = await prisma.$queryRaw`
   // SELECT *
   // FROM "classes" as c
