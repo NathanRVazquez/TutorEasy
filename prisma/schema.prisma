@@ -61,6 +61,8 @@ model Class {
   professorTeaching  ProfessorClass[]
   tutoringSessions   TutoringSession[]
   classInsights      ClassInsights?
+  tutorId           String
+  tutor             Tutor               @relation(fields: [tutorId], references: [id])
 }
 
 model ClassInsights {
@@ -68,6 +70,13 @@ model ClassInsights {
   studentInsights String
   tutorInsights   String
   class           Class  @relation(fields: [classId], references: [classId])
+}
+
+model Tutor {
+  id    String  @id @default(uuid())
+  uid   String  @unique
+  name  String
+  classes Class[]
 }
 
 model TutoringSession {
@@ -83,6 +92,8 @@ model TutoringSession {
   attendees          TutoringAttendees[]
   tutor              User                @relation(fields: [tutorId], references: [userId])
   class              Class               @relation(fields: [classTutored], references: [classId])
+  observationsSummary String?
+  overallSummary     String?
   sessionInsights    SessionInsights?
   sessionConcerns    SessionConcerns?
 }

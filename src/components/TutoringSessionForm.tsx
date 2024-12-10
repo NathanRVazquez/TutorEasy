@@ -27,7 +27,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { DatetimePicker } from "@/components/ui/datetime-picker";
 
 import { useToast } from "@/hooks/use-toast";
-import { PrismaClient, Prisma } from "@prisma/client";
+import { Class } from "@prisma/client";
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -45,6 +45,7 @@ const schema = z.object({
     .refine((value) => value >= 0, {
       message: "Number of students must be greater than or equal to 0",
     }),
+  class: z.string().min(1, "Class is required"),
   topics: z
     .array(
       z.object({
@@ -63,7 +64,13 @@ const schema = z.object({
     .min(1, "At least one topic is required"),
 });
 
-export default function TutoringSessionForm() {
+interface TutoringSessionFormProps {
+  classes: Class[];
+}
+
+export default function TutoringSessionForm({
+  classes,
+}: TutoringSessionFormProps) {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -81,7 +88,6 @@ export default function TutoringSessionForm() {
   });
 
   const { toast } = useToast();
-  const prisma = new PrismaClient();
 
   function addNewInputs() {
     form.setValue("topics", [
@@ -125,12 +131,19 @@ export default function TutoringSessionForm() {
       console.log("Form Data Sent:", formData);
 
       // send the form data to the db
-      const { observationsSummary, overallSummary } = data;
+      const { observationsSummary, overallSummary, classId } = data;
 
-      await prisma.$executeRaw`
-    INSERT INTO TutoringSession (observationsSummary, overallSummary)
-    VALUES (${observationsSummary}, ${overallSummary});
-  `;
+      const dbResponse = await fetch("/api/tutoring-session", {
+        method: "POST",
+        body: JSON.stringify({ observationsSummary, overallSummary, classId }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!dbResponse.ok) {
+        throw new Error(`HTTP error! status: ${dbResponse.status}`);
+      }
 
       toast({
         title: "Form submitted",
@@ -176,6 +189,33 @@ export default function TutoringSessionForm() {
                 </FormControl>
                 <FormDescription className="font-bold">
                   Select your name
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="class"
+            render={({ field }) => (
+              <FormItem className="w-1/2 lg:w-1/2">
+                <FormLabel className="font-bold">Class</FormLabel>
+                <FormControl>
+                  <Select onValueChange={field.onChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a class" {...field} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {classes.map((c: Class) => (
+                        <SelectItem key={c.classId} value={c.classId}>
+                          {c.className}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormDescription className="font-bold">
+                  Select the class you tutored
                 </FormDescription>
                 <FormMessage />
               </FormItem>
