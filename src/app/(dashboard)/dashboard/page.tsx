@@ -5,6 +5,7 @@ import { UserType } from "@prisma/client";
 import { auth } from "@clerk/nextjs/server";
 import HomeDashboardCharts from "@/components/HomeDashboardCharts";
 import Classes from "@/components/Classes";
+import MostRecentTutoringSessions from "@/components/MostRecentTutoringSessions";
 
 export default async function DashboardHomePage() {
   // retrieve the count of all users with the role - TA
@@ -49,7 +50,7 @@ export default async function DashboardHomePage() {
 
   console.log(user);
 
-  const professorId = "cm4evzfxc0000us5kn8xyw628"; // Test professor ID from seeded data
+  const professorId = "cm4hxfwzz0001usj0c41cjhpx"; // Test professor ID from seeded data
 
   const tutorCount = await prisma.tutorSchedule.count({
     where: {
@@ -194,7 +195,7 @@ export default async function DashboardHomePage() {
       class: {
         professorTeaching: {
           some: {
-            professorId: "cm48pblb00000buw0i0udjhzl",
+            professorId: professorId,
             user: {
               userType: UserType.Professor,
             },
@@ -228,7 +229,7 @@ export default async function DashboardHomePage() {
       class: {
         professorTeaching: {
           some: {
-            professorId: "cm48pblb00000buw0i0udjhzl",
+            professorId: professorId,
             user: {
               userType: UserType.Professor,
             },
@@ -256,53 +257,65 @@ export default async function DashboardHomePage() {
   // );
 
   // Mock data for the charts, should be fetched here and passed as props to the component(s)
-  const tutoringSessionsData = [
-    { month: "Jan", sessions: 45 },
-    { month: "Feb", sessions: 52 },
-    { month: "Mar", sessions: 61 },
-    { month: "Apr", sessions: 58 },
-    { month: "May", sessions: 63 },
-    { month: "Jun", sessions: 59 },
-  ];
+  // const tutoringSessionsData = [
+  //   { month: "Jan", sessions: 45 },
+  //   { month: "Feb", sessions: 52 },
+  //   { month: "Mar", sessions: 61 },
+  //   { month: "Apr", sessions: 58 },
+  //   { month: "May", sessions: 63 },
+  //   { month: "Jun", sessions: 59 },
+  // ];
 
-  const studentPerformanceData = [
-    { grade: "A", students: 30 },
-    { grade: "B", students: 45 },
-    { grade: "C", students: 20 },
-    { grade: "D", students: 10 },
-    { grade: "F", students: 5 },
-  ];
+  // const studentPerformanceData = [
+  //   { grade: "A", students: 30 },
+  //   { grade: "B", students: 45 },
+  //   { grade: "C", students: 20 },
+  //   { grade: "D", students: 10 },
+  //   { grade: "F", students: 5 },
+  // ];
 
-  const courseEnrollmentData = [
-    { course: "CS101", students: 120 },
-    { course: "CS201", students: 85 },
-    { course: "CS301", students: 60 },
-    { course: "CS401", students: 40 },
-  ];
+  // const courseEnrollmentData = [
+  //   { course: "CS101", students: 120 },
+  //   { course: "CS201", students: 85 },
+  //   { course: "CS301", students: 60 },
+  //   { course: "CS401", students: 40 },
+  // ];
 
-  const weeklyActivityData = [
-    { day: "Mon", lectures: 3, officehours: 2, tutoring: 1 },
-    { day: "Tue", lectures: 2, officehours: 1, tutoring: 3 },
-    { day: "Wed", lectures: 3, officehours: 2, tutoring: 2 },
-    { day: "Thu", lectures: 2, officehours: 1, tutoring: 1 },
-    { day: "Fri", lectures: 1, officehours: 3, tutoring: 2 },
-  ];
+  // const weeklyActivityData = [
+  //   { day: "Mon", lectures: 3, officehours: 2, tutoring: 1 },
+  //   { day: "Tue", lectures: 2, officehours: 1, tutoring: 3 },
+  //   { day: "Wed", lectures: 3, officehours: 2, tutoring: 2 },
+  //   { day: "Thu", lectures: 2, officehours: 1, tutoring: 1 },
+  //   { day: "Fri", lectures: 1, officehours: 3, tutoring: 2 },
+  // ];
 
   const classes = await prisma.class.findMany({
     where: {
       professorTeaching: {
         some: {
-          professorId: "cm4gjzdsl0002usf8qnvofpq3",
+          professorId: professorId,
         },
       },
     },
   });
+  // console.log(classes);
 
-  console.log(classes);
-
-  // 8.394
-  // 8.38
-  // 7.94
+  const mostRecentTutoringSessions = await prisma.tutoringSession.findMany({
+    take: 10,
+    orderBy: {
+      sessionStartTime: "desc",
+    },
+    where: {
+      class: {
+        professorTeaching: {
+          some: {
+            professorId: professorId,
+          },
+        },
+      },
+    },
+  });
+  // console.log(mostRecentTutoringSessions);
 
   return (
     <div className="w-full">
@@ -327,17 +340,21 @@ export default async function DashboardHomePage() {
             range={"week"}
           />
         </div>
-        <div className="grid gap-4 md:grid-cols-2 pt-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-4">
+          <Classes classes={classes} />
+          <MostRecentTutoringSessions
+            tutoringSessions={mostRecentTutoringSessions}
+          />
+        </div>
+        {/* <div className="grid gap-4 md:grid-cols-2 pt-4">
           <HomeDashboardCharts
             tutoringSessionsData={tutoringSessionsData}
             studentPerformanceData={studentPerformanceData}
             courseEnrollmentData={courseEnrollmentData}
             weeklyActivityData={weeklyActivityData}
           />
-        </div>
-        <div>
-          <Classes classes={classes} />
-        </div>
+        </div> */}
+        <div></div>
       </div>
     </div>
   );

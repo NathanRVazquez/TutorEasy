@@ -7,7 +7,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardFooter,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -19,17 +26,20 @@ interface ClassesProps {
 
 export default function Classes({ classes }: ClassesProps) {
   return (
-    <div className="container mx-auto py-10">
+    <div className="">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Card>
+        <Card className="min-h-[200px] max-h-[700px]">
           <CardHeader>
-            <CardTitle className="text-2xl font-bold">Your Classes</CardTitle>
+            <CardTitle className="">Your Classes</CardTitle>
+            <CardDescription>
+              View all of the classes that you are currently in.
+            </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="h-[500px] overflow-y-auto border-y-[1px] border-gray-300">
             {/* {loading ? (
               <div className="space-y-4">
                 {[1, 2, 3].map((i) => (
@@ -49,7 +59,7 @@ export default function Classes({ classes }: ClassesProps) {
                     </div>
                   </AccordionTrigger>
                   <AccordionContent>
-                    <div className="space-y-4">
+                    <div className="space-y-8">
                       {/*<div className="grid grid-cols-2 gap-4">
                           <div>
                             <p className="text-sm font-medium">Students</p>
@@ -65,9 +75,6 @@ export default function Classes({ classes }: ClassesProps) {
                           <p className="text-lg">{cls.nextAssignment}</p>
                         </div> */}
                       <div>
-                        <p className="text-sm font-medium">
-                          Tutoring Guidelines
-                        </p>
                         <p className="text-sm">{cls.tutoringGuidelines}</p>
                       </div>
                       <Button asChild>
@@ -82,6 +89,11 @@ export default function Classes({ classes }: ClassesProps) {
             </Accordion>
             {/* )} */}
           </CardContent>
+          <CardFooter className="flex justify-end py-4">
+            <Button asChild>
+              <Link href="/dashboard/classes/new-class">Create New Class</Link>
+            </Button>
+          </CardFooter>
         </Card>
       </motion.div>
     </div>

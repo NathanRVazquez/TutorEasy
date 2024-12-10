@@ -145,7 +145,7 @@ async function main() {
         return await prisma.tutoringSession.create({
           data: {
             tutorId: tutor.userId,
-            classTutored: cls.classId,
+            classTutored: cls.className,
             sessionLocation: faker.location.buildingNumber(),
             chapterReviewed: faker.lorem.words(3),
             classSection: cls.classSection,

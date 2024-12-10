@@ -7,8 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// update constraints for all columns
-
 model User {
   userId           String            @id @default(cuid()) @map("_id")
   clerkUserId      String            @unique
@@ -20,15 +18,9 @@ model User {
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
   userType         UserType          @default(Student)
-  tutorSchedules   TutorSchedule[]
   professorClasses ProfessorClass[]
+  tutorSchedules   TutorSchedule[]
   tutoringSessions TutoringSession[]
-}
-
-enum UserType {
-  Professor
-  Tutor
-  Student
 }
 
 model TutorSchedule {
@@ -37,19 +29,19 @@ model TutorSchedule {
   assignedDay    String
   shiftStartTime DateTime
   shiftEndTime   DateTime
-  user           User     @relation(fields: [tutorId], references: [userId])
   class          Class    @relation(fields: [assignedClass], references: [classId])
+  user           User     @relation(fields: [tutorId], references: [userId])
 
-  @@id([tutorId, assignedClass, assignedDay]) // Composite primary key
+  @@id([tutorId, assignedClass, assignedDay])
 }
 
 model ProfessorClass {
   professorId String
   classId     String
-  user        User   @relation(fields: [professorId], references: [userId])
   class       Class  @relation(fields: [classId], references: [classId])
+  user        User   @relation(fields: [professorId], references: [userId])
 
-  @@id([professorId, classId]) // Composite primary key
+  @@id([professorId, classId])
 }
 
 model Class {
@@ -57,10 +49,12 @@ model Class {
   className          String
   classSection       Int
   tutoringGuidelines String
-  tutorSchedules     TutorSchedule[]
-  professorTeaching  ProfessorClass[]
-  tutoringSessions   TutoringSession[]
+  tutorId            String
+  Tutor              Tutor             @relation(fields: [tutorId], references: [id])
   classInsights      ClassInsights?
+  professorTeaching  ProfessorClass[]
+  tutorSchedules     TutorSchedule[]
+  tutoringSessions   TutoringSession[]
 }
 
 model ClassInsights {
@@ -71,20 +65,22 @@ model ClassInsights {
 }
 
 model TutoringSession {
-  sessionId          String              @id @unique @default(cuid())
-  tutorId            String
-  classTutored       String
-  sessionLocation    String?
-  chapterReviewed    String?
-  classSection       Int
-  sessionStartTime   DateTime
-  sessionEndTime     DateTime
-  numStudentsTutored Int
-  attendees          TutoringAttendees[]
-  tutor              User                @relation(fields: [tutorId], references: [userId])
-  class              Class               @relation(fields: [classTutored], references: [classId])
-  sessionInsights    SessionInsights?
-  sessionConcerns    SessionConcerns?
+  sessionId           String              @id @unique @default(cuid())
+  tutorId             String
+  classTutored        String
+  sessionLocation     String?
+  chapterReviewed     String?
+  classSection        Int
+  sessionStartTime    DateTime
+  sessionEndTime      DateTime
+  numStudentsTutored  Int
+  observationsSummary String?
+  overallSummary      String?
+  sessionConcerns     SessionConcerns?
+  sessionInsights     SessionInsights?
+  attendees           TutoringAttendees[]
+  class               Class               @relation(fields: [classTutored], references: [classId])
+  tutor               User                @relation(fields: [tutorId], references: [userId])
 }
 
 model TutoringAttendees {
@@ -94,7 +90,7 @@ model TutoringAttendees {
   studentId    String          @unique
   session      TutoringSession @relation(fields: [sessionId], references: [sessionId])
 
-  @@id([sessionId, studentId]) // Composite primary key
+  @@id([sessionId, studentId])
 }
 
 model SessionInsights {
@@ -109,4 +105,17 @@ model SessionConcerns {
   topic     String
   concerns  String
   session   TutoringSession @relation(fields: [sessionId], references: [sessionId])
+}
+
+model Tutor {
+  id    String  @id
+  uid   String  @unique
+  name  String
+  Class Class[]
+}
+
+enum UserType {
+  Professor
+  Tutor
+  Student
 }

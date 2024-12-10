@@ -74,7 +74,7 @@ const ClassesPage = async () => {
 
   return (
     <div className="bg-white rounded-md p-4 drop-shadow-2xl">
-      <h1>Classes</h1>
+      <h1 className="font-bold text-2xl">Classes</h1>
       <Link href="/dashboard/classes/new-class">
         <Button>Create New Class</Button>
       </Link>
