@@ -3,6 +3,7 @@ import prisma from "@/lib/db";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import NewTutorForm from "@/components/NewTutorForm";
+import Tutors from "@/components/Tutors";
 
 const TutorsPage = async () => {
   // const professors_tutors: {}[] = await prisma.$queryRaw`
@@ -15,16 +16,44 @@ const TutorsPage = async () => {
   // WHERE u_prof."User_ID" = 'cm48pblb00000buw0i0udjhzl';
   // `;
 
+  const professorId = "cm4hzkucc0000usjw0tf5obrh";
+
+  // const tutors = await prisma.user.findMany({
+  //   where: {
+  //     userType: 'Tutor',
+  //     tutorSchedules: {
+  //       some: {
+  //         assignedClass: {
+  //           professorTeaching: {
+  //             some: {
+  //               professorId: professorId,
+  //             },
+  //           },
+  //         },
+  //       },
+  //     },
+  //   },
+  // });
+
+  // const tutors2 = await prisma.tutorSchedule.findMany({
+  //   where: {
+
+  // })
+
+  // console.log(tutors);
+
   return (
     <div className="bg-white rounded-md p-4 drop-shadow-2xl">
-      <h1>Tutors</h1>
-      <Button asChild>
+      <h2 className="text-xl font-bold">Tutors</h2>
+      {/* <Button asChild>
         <Link href="/dashboard/tutors/new-tutor">Create New Tutor</Link>
-      </Button>
+      </Button> */}
 
       {/* <Link href={`/dashboard/classes/${classId}/new-tutor`}>
         <Button>Add New Tutor</Button>
       </Link> */}
+
+      <Tutors />
     </div>
   );
 };
