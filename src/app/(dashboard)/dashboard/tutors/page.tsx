@@ -9,7 +9,7 @@ import Loading from "./loading";
 import { UserRoundPlus } from "lucide-react";
 
 export default async function TutorsPage() {
-  const professorId = "cm4hzkucc0000usjw0tf5obrh";
+  const professorId = "user_2q5EtdWObj9OQo1ccZbNixbgCMG";
 
   const tutors = await prisma.user.findMany({
     where: {
@@ -34,6 +34,43 @@ export default async function TutorsPage() {
 
   console.log(tutors);
 
+  // const tutorCount = await prisma.user.findMany({
+  //   where: {
+  //     userId: professorId,
+  //   },
+  //   select: {
+  //     professorClasses: {
+  //       select: {
+  //         class: {
+  //           select: {
+  //             tutorSchedules: {
+  //               select: {
+  //                 user: {
+  //                   select: {
+  //                     userId: true,
+  //                     firstName: true,
+  //                     lastName: true,
+  //                     email: true,
+  //                   },
+  //                 },
+  //               },
+  //             },
+  //           },
+  //         },
+  //       },
+  //     },
+  //   },
+  // });
+
+  // console.log(tutorCount.length);
+  // const tutorData = tutorCount.flatMap((user) =>
+  //   user.professorClasses.flatMap((profClass) =>
+  //     profClass.class.tutorSchedules.map((schedule) => schedule.user)
+  //   )
+  // );
+
+  // console.log(tutorData);
+
   return (
     <div className="bg-white rounded-md p-4 drop-shadow-2xl space-y-4">
       <div className="flex justify-between items-center">
@@ -44,7 +81,10 @@ export default async function TutorsPage() {
             a new tutor and edit or delete an existing tutor.
           </p>
         </div>
-        <Button asChild>
+        <Button
+          asChild
+          className="bg-primary-green hover:bg-secondary-green hover:text-black"
+        >
           <Link href="/dashboard/tutors/new-tutor" className="font-bold">
             <UserRoundPlus size={24} />
             Create New Tutor

@@ -38,57 +38,59 @@ export default function Tutors({ tutors }: TutorsProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Table className="border-x-2">
-        <TableHeader>
-          <TableRow>
-            <TableHead className="font-bold">First Name</TableHead>
-            <TableHead className="font-bold">Last Name</TableHead>
-            <TableHead className="font-bold">Email</TableHead>
-            <TableHead className="font-bold">EMPLID</TableHead>
-            <TableHead className="font-bold text-end">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {tutors.map((tutor) => (
-            <TableRow key={tutor.userId}>
-              <TableCell>{tutor.firstName}</TableCell>
-              <TableCell>{tutor.lastName}</TableCell>
-              <TableCell>{tutor.email}</TableCell>
-              <TableCell>{tutor.emplid}</TableCell>
-              <TableCell className="text-end space-x-4">
-                <Button variant="secondary">
-                  <UserPen size={24} />
-                  Edit
-                </Button>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button variant="secondary">
-                      <UserRoundX size={24} />
-                      Delete
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Are you absolutely sure?
-                      </AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This action cannot be undone. This will permanently
-                        delete your account and remove your data from our
-                        servers.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction>Continue</AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </TableCell>
+      <div className="w-full max-h-[650px] h-full overflow-y-auto">
+        <Table className="border-x-2">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="font-bold">First Name</TableHead>
+              <TableHead className="font-bold">Last Name</TableHead>
+              <TableHead className="font-bold">Email</TableHead>
+              <TableHead className="font-bold">EMPLID</TableHead>
+              <TableHead className="font-bold text-end">Actions</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {tutors.map((tutor) => (
+              <TableRow key={tutor.userId}>
+                <TableCell>{tutor.firstName}</TableCell>
+                <TableCell>{tutor.lastName}</TableCell>
+                <TableCell>{tutor.email}</TableCell>
+                <TableCell>{tutor.emplid}</TableCell>
+                <TableCell className="text-end space-x-4">
+                  <Button variant="secondary">
+                    <UserPen size={24} />
+                    Edit
+                  </Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="secondary">
+                        <UserRoundX size={24} />
+                        Delete
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you absolutely sure?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete your account and remove your data from our
+                          servers.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction>Continue</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </motion.div>
   );
 }

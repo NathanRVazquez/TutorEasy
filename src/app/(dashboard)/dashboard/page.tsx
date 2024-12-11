@@ -50,7 +50,7 @@ export default async function DashboardHomePage() {
 
   console.log(user);
 
-  const professorId = "cm4jel97k0000ufbgxu91t50v"; // Test professor ID from seeded data
+  const professorId = "user_2q5EtdWObj9OQo1ccZbNixbgCMG"; // Test professor ID from seeded data
 
   const tutorCount = await prisma.tutorSchedule.count({
     where: {

@@ -73,7 +73,7 @@ export default function AppSidebar() {
       <div className="flex justify-between items-center ml-1">
         <SidebarHeader className="flex flex-row justify-center items-center">
           <Image
-            src="/dark-green-orange-logo.png"
+            src="/dark-green-logo.png"
             alt="TutorEasy Logo"
             width="36"
             height="36"
