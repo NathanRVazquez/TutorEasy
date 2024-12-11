@@ -10,22 +10,37 @@ export async function POST(req: Request) {
     // Create a new summary within the respective class
     const tutoringSession = await prisma.tutoringSession.create({
       data: {
-        // tutorId: data.tutorId,
+        tutorId: data.tutorId,
+        classTutored: data.classTutored,
+        classSection: data.class_section,
         sessionStartTime: data.start_time,
         sessionEndTime: data.end_time,
         numStudentsTutored: data.students,
-        overallSummary: data.overallSummary,
-        // tutor: data.name,
-        classId: data.class,
-        // class: data.class,
-        sessionInsights: {
-          create: {
-            observationSummary: data.observationSummary,
-            tutorInsights: data.
-          },
-        },
+        tutor: data.name,
+        class: data.class,
       },
     });
+
+    const sessionInsights = await prisma.sessionInsights.create({
+      data: {
+        sessionId: tutoringSession.sessionId,
+        studentInsights: data.observationSummary,
+        topic: data.topic,
+        tutorInsights: data.tutorSummary,
+      },
+    });
+
+    const sessionConcerns = await prisma.sessionConcerns.create({
+      data: {
+        sessionId: tutoringSession.sessionId,
+        concerns: data.observations,
+        topic: data.topic,
+      },
+    });
+
+    console.log("Tutoring session created:", tutoringSession);
+    console.log("Session insights created:", sessionInsights);
+    console.log("Session concerns created:", sessionConcerns);
 
     return NextResponse.json({
       message: "Summaries saved successfully",

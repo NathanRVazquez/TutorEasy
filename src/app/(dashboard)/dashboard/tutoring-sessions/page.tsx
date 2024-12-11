@@ -4,23 +4,45 @@ import React from "react";
 import TutoringSessionForm from "@/components/TutoringSessionForm";
 import prisma from "@/lib/db";
 
-const TutoringSessionsPage = async ({ params }: { params: { id: string } }) => {
-  const { id } = params; // Assuming you pass the tutor's UID as a parameter
-
-  console.log("id", id);
-  // Fetch classes assigned to the specific tutor
-  const classes = await prisma.class.findMany({
+const TutoringSessionsPage = async () => {
+  // const { id } = params; // Assuming you pass the tutor's UID as a parameter
+  const professors_tutors = await prisma.user.findMany({
     where: {
-      tutor: {
-        id: id,
+      userType: "Tutor", // Ensures only professor are considered
+    },
+    include: {
+      professorClasses: {
+        include: {
+          class: {
+            include: {
+              tutorSchedules: {
+                include: {
+                  user: true, // Includes tutor details
+                },
+              },
+            },
+          },
+        },
       },
     },
   });
-  console.log("classes", classes);
+
+  const classes = professors_tutors.flatMap((tutor) =>
+    tutor.professorClasses.map((profClass) => profClass.class)
+  );
+
+  const class_section = classes.map((class_) => class_.classSection);
+
+  // console.log("tutors: ", professors_tutors);
+  // console.log("classes: ", classes);
 
   return (
     <div className="bg-white rounded-md p-4 drop-shadow-2xl">
-      <TutoringSessionForm classes={classes} />
+      <TutoringSessionForm
+        tutors={professors_tutors}
+        classes={classes}
+        class_section={class_section}
+      />
     </div>
   );
 };

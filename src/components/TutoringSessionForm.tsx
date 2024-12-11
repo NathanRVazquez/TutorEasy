@@ -28,6 +28,7 @@ import { DatetimePicker } from "@/components/ui/datetime-picker";
 
 import { useToast } from "@/hooks/use-toast";
 import { Class } from "@prisma/client";
+import { User } from "@prisma/client";
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -45,7 +46,12 @@ const schema = z.object({
     .refine((value) => value >= 0, {
       message: "Number of students must be greater than or equal to 0",
     }),
-  class: z.string().min(1, "Class is required"),
+  class: z.string({
+    required_error: "Class is required",
+  }),
+  class_section: z.string({
+    required_error: "Class section is required",
+  }),
   topics: z
     .array(
       z.object({
@@ -64,13 +70,15 @@ const schema = z.object({
     .min(1, "At least one topic is required"),
 });
 
-interface TutoringSessionFormProps {
-  classes: Class[];
-}
+// interface TutoringSessionFormProps {
+//   classes: Class[];
+// }
 
 export default function TutoringSessionForm({
-  classes,
-}: TutoringSessionFormProps) {
+  tutors = [] as User[],
+  classes = [] as Class[],
+  class_section = [] as number[],
+}) {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -115,6 +123,7 @@ export default function TutoringSessionForm({
     try {
       const formData = {
         ...values,
+        class_section: Number(values.class_section),
       };
       console.log("Form data 1:", formData);
       // calling the summary route to create the overall and specific summaries
@@ -148,9 +157,9 @@ export default function TutoringSessionForm({
       const dbData = await dbResponse.json();
       console.log("DB Response:", dbData);
 
-      // if (!dbResponse.ok) {
-      //   throw new Error(`HTTP error! status: ${dbResponse.status}`);
-      // }
+      if (!dbResponse.ok) {
+        throw new Error(`HTTP error! status: ${dbResponse.status}`);
+      }
 
       toast({
         title: "Form submitted",
@@ -182,15 +191,14 @@ export default function TutoringSessionForm({
                       <SelectValue placeholder="TA" {...field} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Nathan Vazquez">
-                        Nathan Vazquez
-                      </SelectItem>
-                      <SelectItem value="Ynalois Pangilinan">
-                        Ynalois Pangilinan
-                      </SelectItem>
-                      <SelectItem value="Shohruz Ernazarov">
-                        Shohruz Ernazarov
-                      </SelectItem>
+                      {tutors.map((t) => {
+                        const tutorName = `${t.firstName} ${t.lastName}`;
+                        return (
+                          <SelectItem key={t.userId} value={tutorName}>
+                            {t.firstName} {t.lastName}
+                          </SelectItem>
+                        );
+                      })}
                     </SelectContent>
                   </Select>
                 </FormControl>
@@ -216,6 +224,34 @@ export default function TutoringSessionForm({
                       {classes.map((c: Class) => (
                         <SelectItem key={c.classId} value={c.classId}>
                           {c.className}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormDescription className="font-bold">
+                  Select the class you tutored
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="class_section"
+            render={({ field }) => (
+              <FormItem className="w-1/2 lg:w-1/2">
+                <FormLabel className="font-bold">Class Section</FormLabel>
+                <FormControl>
+                  <Select onValueChange={field.onChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a class" {...field} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {class_section.map((c) => (
+                        <SelectItem key={c} value={c.toString()}>
+                          {c}
                         </SelectItem>
                       ))}
                     </SelectContent>
