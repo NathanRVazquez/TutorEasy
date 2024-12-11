@@ -77,7 +77,7 @@ export default function Classes({ classes }: ClassesProps) {
                       <div>
                         <p className="text-sm">{cls.tutoringGuidelines}</p>
                       </div>
-                      <Button asChild>
+                      <Button asChild className="bg-custom-orange">
                         <Link href={`/dashboard/classes/${cls.classId}`}>
                           View Class Details
                         </Link>
@@ -90,7 +90,7 @@ export default function Classes({ classes }: ClassesProps) {
             {/* )} */}
           </CardContent>
           <CardFooter className="flex justify-end py-4">
-            <Button asChild>
+            <Button asChild className="bg-primary-green">
               <Link href="/dashboard/classes/new-class">Create New Class</Link>
             </Button>
           </CardFooter>

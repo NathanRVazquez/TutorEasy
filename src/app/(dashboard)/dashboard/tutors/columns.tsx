@@ -1,9 +1,9 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Tutor } from "@prisma/client";
+import { User } from "@prisma/client";
 
-export const columns: ColumnDef<Tutor>[] = [
+export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "firstName",
     header: "First Name",

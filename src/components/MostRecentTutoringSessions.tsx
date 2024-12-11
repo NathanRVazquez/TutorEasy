@@ -45,7 +45,7 @@ export default function MostRecentTutoringSessions({
       <CardFooter className="flex justify-end py-6">
         <Link
           href="/dashboard/tutoring-sessions"
-          className="text-sm font-semibold text-blue-500 decoration-solid hover:underline"
+          className="text-sm font-semibold text-secondary-green decoration-solid hover:underline"
         >
           View All Tutoring Sessions
         </Link>
