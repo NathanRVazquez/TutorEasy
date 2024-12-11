@@ -24,7 +24,9 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export default function CreateClassForm() {
+export default function CreateClassForm(
+  createClass: (className, classSection, tutoringGuidelines) => void
+) {
   const form = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -37,6 +39,19 @@ export default function CreateClassForm() {
   const handleSubmit = async (data: FormData) => {
     console.log(data);
     // Handle form submission
+
+    const values = {
+      className: data.class_name,
+      classSection: Number(data.class_section),
+      tutoringGuidelines: data.tutoring_guideline,
+    };
+
+    try {
+      await createClass(values);
+    } catch (error) {
+      console.error("Error creating class:", error);
+      throw new Error("Failed to create class");
+    }
   };
 
   return (
