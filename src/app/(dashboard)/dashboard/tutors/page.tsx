@@ -1,61 +1,65 @@
-import React from "react";
+import React, { Suspense } from "react";
 import prisma from "@/lib/db";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import NewTutorForm from "@/components/NewTutorForm";
 import Tutors from "@/components/Tutors";
+import Loading from "./loading";
 
-const TutorsPage = async () => {
-  // const professors_tutors: {}[] = await prisma.$queryRaw`
-  // SELECT *
-  // FROM "ta_schedules" as ts
-  // JOIN "users" as u_ta ON u_ta."User_ID" = ts."TA_ID"
-  // JOIN "classes" c ON ts."Class_Assigned" = c."Class_ID"
-  // JOIN "professor_classes" pc ON c."Class_ID" = pc."Class_ID"
-  // JOIN "users" u_prof ON pc."Professor_ID" = u_prof."User_ID"
-  // WHERE u_prof."User_ID" = 'cm48pblb00000buw0i0udjhzl';
-  // `;
+import { UserRoundPlus } from "lucide-react";
 
+export default async function TutorsPage() {
   const professorId = "cm4hzkucc0000usjw0tf5obrh";
 
-  // const tutors = await prisma.user.findMany({
-  //   where: {
-  //     userType: 'Tutor',
-  //     tutorSchedules: {
-  //       some: {
-  //         assignedClass: {
-  //           professorTeaching: {
-  //             some: {
-  //               professorId: professorId,
-  //             },
-  //           },
-  //         },
-  //       },
-  //     },
-  //   },
-  // });
+  const tutors = await prisma.user.findMany({
+    where: {
+      userType: "Tutor", // Ensures only tutors are considered
+    },
+    include: {
+      professorClasses: {
+        include: {
+          class: {
+            include: {
+              tutorSchedules: {
+                include: {
+                  user: true, // Includes tutor details
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
 
-  // const tutors2 = await prisma.tutorSchedule.findMany({
-  //   where: {
-
-  // })
-
-  // console.log(tutors);
+  console.log(tutors);
 
   return (
-    <div className="bg-white rounded-md p-4 drop-shadow-2xl">
-      <h2 className="text-xl font-bold">Tutors</h2>
-      {/* <Button asChild>
-        <Link href="/dashboard/tutors/new-tutor">Create New Tutor</Link>
-      </Button> */}
+    <div className="bg-white rounded-md p-4 drop-shadow-2xl space-y-4">
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-xl font-bold">Tutors</h2>
+          <p className="text-gray-500 text-sm">
+            View all of the tutors for all of your classes. You can also create
+            a new tutor and edit or delete an existing tutor.
+          </p>
+        </div>
+        <Button asChild>
+          <Link href="/dashboard/tutors/new-tutor" className="font-bold">
+            <UserRoundPlus size={24} />
+            Create New Tutor
+          </Link>
+        </Button>
+      </div>
 
       {/* <Link href={`/dashboard/classes/${classId}/new-tutor`}>
         <Button>Add New Tutor</Button>
       </Link> */}
-
-      <Tutors />
+      <div>
+        <Suspense fallback={<Loading />}>
+          <Tutors tutors={tutors} />
+        </Suspense>
+      </div>
     </div>
   );
-};
-
-export default TutorsPage;
+}
