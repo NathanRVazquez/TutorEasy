@@ -3,23 +3,33 @@ import prisma from "@/lib/db";
 
 export async function POST(req: Request) {
   try {
-    const { observationsSummary, overallSummary, classId } = await req.json();
+    const data = await req.json();
+
+    console.log("Tutoring session route:", data);
 
     // Create a new summary within the respective class
-    const newSummary = await prisma.tutoringSession.create({
-      where { classId: classId },
+    const tutoringSession = await prisma.tutoringSession.create({
       data: {
-        observationsSummary: observationsSummary,
-        overallSummary: overallSummary,
-        sessionStartTime: new Date(), // replace with actual value
-        sessionEndTime: new Date(), // replace with actual value
-        numStudentsTutored: 0, // replace with actual value
+        // tutorId: data.tutorId,
+        sessionStartTime: data.start_time,
+        sessionEndTime: data.end_time,
+        numStudentsTutored: data.students,
+        overallSummary: data.overallSummary,
+        // tutor: data.name,
+        classId: data.class,
+        // class: data.class,
+        sessionInsights: {
+          create: {
+            observationSummary: data.observationSummary,
+            tutorInsights: data.
+          },
+        },
       },
     });
 
     return NextResponse.json({
       message: "Summaries saved successfully",
-      newSummary,
+      data,
     });
   } catch (error) {
     console.error("Error saving summaries:", error);
