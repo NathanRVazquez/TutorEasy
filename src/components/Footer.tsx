@@ -41,6 +41,7 @@ export default function Footer() {
           <p>Stay in contact with the team that made TutorEasy</p>
           <a
             href="https://linktr.ee/TutorEasy"
+            target="_blank"
             className="text-blue-400 text-sm"
           >
             Our Linktree

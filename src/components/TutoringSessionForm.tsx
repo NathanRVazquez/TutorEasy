@@ -27,6 +27,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { DatetimePicker } from "@/components/ui/datetime-picker";
 
 import { useToast } from "@/hooks/use-toast";
+import { Class } from "@prisma/client";
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -44,6 +45,7 @@ const schema = z.object({
     .refine((value) => value >= 0, {
       message: "Number of students must be greater than or equal to 0",
     }),
+  class: z.string().min(1, "Class is required"),
   topics: z
     .array(
       z.object({
@@ -62,7 +64,13 @@ const schema = z.object({
     .min(1, "At least one topic is required"),
 });
 
-export default function TutoringSessionForm() {
+interface TutoringSessionFormProps {
+  classes: Class[];
+}
+
+export default function TutoringSessionForm({
+  classes,
+}: TutoringSessionFormProps) {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -104,13 +112,11 @@ export default function TutoringSessionForm() {
   async function onSubmit(values: z.infer<typeof schema>) {
     console.log(values);
 
-    const formData = {
-      ...values,
-      start_time: values.start_time.toTimeString(),
-      end_time: values.end_time.toTimeString(),
-    };
-
     try {
+      const formData = {
+        ...values,
+      };
+      console.log("Form data 1:", formData);
       // calling the summary route to create the overall and specific summaries
       const response = await fetch("/api/summary", {
         method: "POST",
@@ -119,13 +125,33 @@ export default function TutoringSessionForm() {
           "Content-Type": "application/json",
         },
       });
-
       const data = await response.json();
 
       console.log("Response:", data);
-      console.log("Form Data Sent:", formData);
+      console.log("Form Data 2:", formData);
 
       // send the form data to the db
+      const tutoringSessionData = {
+        ...formData,
+        ...data,
+      };
+
+      console.log("Tutoring Session Data:", tutoringSessionData);
+
+      const dbResponse = await fetch("/api/tutoring-session", {
+        method: "POST",
+        body: JSON.stringify(tutoringSessionData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const dbData = await dbResponse.json();
+      console.log("DB Response:", dbData);
+
+      // if (!dbResponse.ok) {
+      //   throw new Error(`HTTP error! status: ${dbResponse.status}`);
+      // }
+
       toast({
         title: "Form submitted",
         description: "Your tutoring session has been successfully submitted!",
@@ -170,6 +196,33 @@ export default function TutoringSessionForm() {
                 </FormControl>
                 <FormDescription className="font-bold">
                   Select your name
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="class"
+            render={({ field }) => (
+              <FormItem className="w-1/2 lg:w-1/2">
+                <FormLabel className="font-bold">Class</FormLabel>
+                <FormControl>
+                  <Select onValueChange={field.onChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a class" {...field} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {classes.map((c: Class) => (
+                        <SelectItem key={c.classId} value={c.classId}>
+                          {c.className}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormDescription className="font-bold">
+                  Select the class you tutored
                 </FormDescription>
                 <FormMessage />
               </FormItem>

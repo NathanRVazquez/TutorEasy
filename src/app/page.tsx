@@ -20,6 +20,10 @@ import Link from "next/link";
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Image from "next/image";
+import darkgreenorangelogo from "/public/dark-green-orange-logo.png";
+import lightgreenorangelogo from "/public/light-green-orange-logo.png";
+import { SignUpButton } from "@clerk/nextjs";
 
 const LandingPage = () => {
   return (
@@ -27,14 +31,15 @@ const LandingPage = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+      <div className="pt-16 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="lg:grid lg:grid-cols-12 lg:gap-8">
-            <div className="lg:col-span-6 pt-4">
+            <div className="lg:col-span-6 pt-4 flex flex-col justify-center">
               <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
                 Bridging the gap between
                 <span className="block text-primary">
-                  students and educators
+                  <span className="text-primary-green">students</span> and{" "}
+                  <span className="text-custom-lighter-orange">educators</span>
                 </span>
               </h1>
               <p className="mt-6 text-lg text-muted-foreground">
@@ -44,7 +49,7 @@ const LandingPage = () => {
               </p>
               <div className="mt-8 flex items-center space-x-4">
                 <Link href="/dashboard">
-                  <Button>
+                  <Button className="bg-primary-green">
                     Get Started
                     <ChevronRight className="ml-2 w-4 h-4" />
                   </Button>
@@ -52,16 +57,14 @@ const LandingPage = () => {
                 <Button variant="outline">Learn More</Button>
               </div>
             </div>
-            <div className="mt-12 lg:mt-0 lg:col-span-6">
-              {/* <Card>
-                <CardContent className="p-6">
-                  <img
-                    src="/api/placeholder/600/400"
-                    alt="TutorEasy Dashboard Preview"
-                    className="rounded-lg w-full"
-                  />
-                </CardContent>
-              </Card> */}
+            <div className="mt-12 lg:mt-0 lg:col-span-6 flex lg:justify-end justify-center">
+              <Image
+                src={lightgreenorangelogo}
+                alt="TutorEasy Logo"
+                width={500}
+                height={500}
+                className="w-64 lg:w-auto"
+              />
             </div>
           </div>
         </div>
@@ -126,7 +129,7 @@ const LandingPage = () => {
       </div>
 
       {/* CTA Section */}
-      <div className="bg-primary text-primary-foreground">
+      <div className="bg-primary-green text-primary-foreground">
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold">
@@ -135,8 +138,8 @@ const LandingPage = () => {
             <p className="mt-4 text-primary-foreground/80">
               Join tutors and professors who are already using TutorEasy
             </p>
-            <Button className="mt-8" variant="secondary">
-              Start Free Trial
+            <Button asChild className="mt-8" variant="secondary">
+              <SignUpButton />
             </Button>
           </div>
         </div>

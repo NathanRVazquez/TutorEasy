@@ -3,7 +3,9 @@
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
+import darkgreenlogo from "/public/dark-green-logo.png";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Navbar() {
   return (
@@ -11,39 +13,20 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-2">
-            {/* Logo SVG */}
-            {/* <svg className="w-8 h-8" viewBox="0 0 400 100">
-              <g transform="translate(105, 0) scale(0.3)">
-                <path
-                  d="M40,50 Q55,50 65,50 T80,50 L90,20 L100,80 L110,50 L120,50 Q135,50 145,50"
-                  fill="none"
-                  stroke="hsl(var(--primary))"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M165,35 L165,65 M150,50 L180,50"
-                  stroke="hsl(var(--primary))"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                />
-                <circle
-                  cx="165"
-                  cy="50"
-                  r="25"
-                  fill="none"
-                  stroke="hsl(var(--primary))"
-                  strokeWidth="4"
-                />
-              </g>
-            </svg> */}
-            <Link href="/" className="text-xl font-bold">
+            <Link href="/" className="text-xl font-bold flex items-center">
+              <Image
+                src={darkgreenlogo}
+                alt="TutorEasy Logo"
+                height={50}
+                width={50}
+                className=""
+              />
               TutorEasy
             </Link>
           </div>
           <div>
             <SignedOut>
-              <Button asChild>
+              <Button asChild className="bg-primary-green">
                 <SignInButton />
               </Button>
             </SignedOut>
