@@ -5,19 +5,55 @@ import TutoringSessionForm from "@/components/TutoringSessionForm";
 import prisma from "@/lib/db";
 
 const TutoringSessionsPage = async () => {
-  // const { id } = params; // Assuming you pass the tutor's UID as a parameter
+  const professorsClasses = await prisma.user.findMany({
+    where: {
+      userId: "user_2q5EtdWObj9OQo1ccZbNixbgCMG",
+    },
+    select: {
+      professorClasses: {
+        select: {
+          class: {
+            select: {
+              classId: true,
+              className: true,
+              classSection: true,
+              tutoringGuidelines: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const class_ = professorsClasses.flatMap((user) =>
+    user.professorClasses.flatMap((profClass) => profClass.class)
+  );
+
   const professors_tutors = await prisma.user.findMany({
     where: {
-      userType: "Tutor", // Ensures only professor are considered
+      userId: "user_2q5EtdWObj9OQo1ccZbNixbgCMG",
     },
-    include: {
+    select: {
       professorClasses: {
-        include: {
+        select: {
           class: {
-            include: {
+            select: {
               tutorSchedules: {
-                include: {
-                  user: true, // Includes tutor details
+                select: {
+                  user: {
+                    select: {
+                      userId: true,
+                      clerkUserId: true,
+                      emplid: true,
+                      email: true,
+                      firstName: true,
+                      lastName: true,
+                      imageUrl: true,
+                      createdAt: true,
+                      updatedAt: true,
+                      userType: true,
+                    },
+                  },
                 },
               },
             },
@@ -27,21 +63,25 @@ const TutoringSessionsPage = async () => {
     },
   });
 
+  const tutors = professors_tutors.flatMap((user) =>
+    user.professorClasses.flatMap((profClass) =>
+      profClass.class.tutorSchedules.map((schedule) => schedule.user)
+    )
+  );
+
   const classes = professors_tutors.flatMap((tutor) =>
     tutor.professorClasses.map((profClass) => profClass.class)
   );
 
-  const class_section = classes.map((class_) => class_.classSection);
-
-  // console.log("tutors: ", professors_tutors);
-  // console.log("classes: ", classes);
+  console.log("tutors: ", tutors);
+  console.log("classes: ", classes);
 
   return (
     <div className="bg-white rounded-md p-4 drop-shadow-2xl">
       <TutoringSessionForm
-        tutors={professors_tutors}
-        classes={classes}
-        class_section={class_section}
+        tutors={tutors}
+        classes={class_}
+        class_section={class_.map((cls) => cls.classSection)}
       />
     </div>
   );

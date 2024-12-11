@@ -123,6 +123,8 @@ export default function TutoringSessionForm({
     try {
       const formData = {
         ...values,
+        tutor: values.name,
+        className: values.class,
         class_section: Number(values.class_section),
       };
       console.log("Form data 1:", formData);
@@ -194,7 +196,7 @@ export default function TutoringSessionForm({
                       {tutors.map((t) => {
                         const tutorName = `${t.firstName} ${t.lastName}`;
                         return (
-                          <SelectItem key={t.userId} value={tutorName}>
+                          <SelectItem key={t.userId} value={t.userId}>
                             {t.firstName} {t.lastName}
                           </SelectItem>
                         );
