@@ -9,18 +9,10 @@ const TutoringSessionsPage = async ({ params }: { params: { id: string } }) => {
 
   console.log("id", id);
   // Fetch classes assigned to the specific tutor
-  const classes = await prisma.class.findMany({
-    where: {
-      tutor: {
-        id: id,
-      },
-    },
-  });
-  console.log("classes", classes);
 
   return (
     <div className="bg-white rounded-md p-4 drop-shadow-2xl">
-      <TutoringSessionForm classes={classes} />
+      <TutoringSessionForm />
     </div>
   );
 };

@@ -45,7 +45,6 @@ const schema = z.object({
     .refine((value) => value >= 0, {
       message: "Number of students must be greater than or equal to 0",
     }),
-  class: z.string().min(1, "Class is required"),
   topics: z
     .array(
       z.object({
@@ -68,9 +67,7 @@ interface TutoringSessionFormProps {
   classes: Class[];
 }
 
-export default function TutoringSessionForm({
-  classes,
-}: TutoringSessionFormProps) {
+export default function TutoringSessionForm() {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -196,33 +193,6 @@ export default function TutoringSessionForm({
                 </FormControl>
                 <FormDescription className="font-bold">
                   Select your name
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="class"
-            render={({ field }) => (
-              <FormItem className="w-1/2 lg:w-1/2">
-                <FormLabel className="font-bold">Class</FormLabel>
-                <FormControl>
-                  <Select onValueChange={field.onChange}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a class" {...field} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {classes.map((c: Class) => (
-                        <SelectItem key={c.classId} value={c.classId}>
-                          {c.className}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormDescription className="font-bold">
-                  Select the class you tutored
                 </FormDescription>
                 <FormMessage />
               </FormItem>
