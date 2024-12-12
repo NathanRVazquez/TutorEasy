@@ -3,7 +3,7 @@
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
-import darkgreenlogo from "/public/dark-green-logo.png";
+// import darkgreenlogo from "";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -15,7 +15,7 @@ export default function Navbar() {
           <div className="flex items-center space-x-2">
             <Link href="/" className="text-xl font-bold flex items-center">
               <Image
-                src={darkgreenlogo}
+                src={"/dark-green-logo.png"}
                 alt="TutorEasy Logo"
                 height={50}
                 width={50}
