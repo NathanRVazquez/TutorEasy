@@ -21,8 +21,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import darkgreenorangelogo from "/public/dark-green-orange-logo.png";
-import lightgreenorangelogo from "/public/light-green-orange-logo.png";
+// import darkgreenorangelogo from "/public/dark-green-orange-logo.png";
 import { SignUpButton } from "@clerk/nextjs";
 
 const LandingPage = () => {
@@ -59,7 +58,7 @@ const LandingPage = () => {
             </div>
             <div className="mt-12 lg:mt-0 lg:col-span-6 flex lg:justify-end justify-center">
               <Image
-                src={lightgreenorangelogo}
+                src={"/light-green-orange-logo.png"}
                 alt="TutorEasy Logo"
                 width={500}
                 height={500}
