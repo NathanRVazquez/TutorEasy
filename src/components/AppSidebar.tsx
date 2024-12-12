@@ -16,6 +16,7 @@ import {
   SidebarSeparator,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import Image from "next/image";
 // import {
 //   Collapsible,
 //   CollapsibleContent,
@@ -70,8 +71,14 @@ export default function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <div className="flex justify-between items-center ml-1">
-        <SidebarHeader>
-          <h1 className="font-bold text-2xl">TutorEasy</h1>
+        <SidebarHeader className="flex flex-row justify-center items-center">
+          <Image
+            src="/dark-green-logo.png"
+            alt="TutorEasy Logo"
+            width="36"
+            height="36"
+          />
+          <h1 className="font-bold text-2xl text-primary-green">TutorEasy</h1>
         </SidebarHeader>
         <SidebarTrigger />
       </div>
@@ -144,7 +151,7 @@ export default function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <div className="space-y-2">
+        <div className="text-center space-y-2">
           <SidebarSeparator />
           <p className="text-center text-xs text-gray-400">
             &copy; {new Date().getFullYear()} TutorEasy

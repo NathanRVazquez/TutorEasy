@@ -7,8 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// update constraints for all columns
-
 model User {
   userId           String            @id @default(cuid()) @map("_id")
   clerkUserId      String            @unique
@@ -20,8 +18,8 @@ model User {
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
   userType         UserType          @default(Student)
-  tutorSchedules   TutorSchedule[]
   professorClasses ProfessorClass[]
+  tutorSchedules   TutorSchedule[]
   tutoringSessions TutoringSession[]
 }
 
@@ -37,19 +35,19 @@ model TutorSchedule {
   assignedDay    String
   shiftStartTime DateTime
   shiftEndTime   DateTime
-  user           User     @relation(fields: [tutorId], references: [userId])
   class          Class    @relation(fields: [assignedClass], references: [classId])
+  user           User     @relation(fields: [tutorId], references: [userId])
 
-  @@id([tutorId, assignedClass, assignedDay]) // Composite primary key
+  @@id([tutorId, assignedClass, assignedDay])
 }
 
 model ProfessorClass {
   professorId String
   classId     String
-  user        User   @relation(fields: [professorId], references: [userId])
   class       Class  @relation(fields: [classId], references: [classId])
+  user        User   @relation(fields: [professorId], references: [userId])
 
-  @@id([professorId, classId]) // Composite primary key
+  @@id([professorId, classId])
 }
 
 model Class {
@@ -57,10 +55,10 @@ model Class {
   className          String
   classSection       Int
   tutoringGuidelines String
-  tutorSchedules     TutorSchedule[]
-  professorTeaching  ProfessorClass[]
-  tutoringSessions   TutoringSession[]
   classInsights      ClassInsights?
+  professorTeaching  ProfessorClass[]
+  tutorSchedules     TutorSchedule[]
+  tutoringSessions   TutoringSession[]
 }
 
 model ClassInsights {
@@ -80,11 +78,11 @@ model TutoringSession {
   sessionStartTime   DateTime
   sessionEndTime     DateTime
   numStudentsTutored Int
+  sessionConcerns    SessionConcerns[]
+  sessionInsights    SessionInsights[]
   attendees          TutoringAttendees[]
-  tutor              User                @relation(fields: [tutorId], references: [userId])
   class              Class               @relation(fields: [classTutored], references: [classId])
-  sessionInsights    SessionInsights?
-  sessionConcerns    SessionConcerns?
+  tutor              User                @relation(fields: [tutorId], references: [userId])
 }
 
 model TutoringAttendees {
@@ -94,13 +92,14 @@ model TutoringAttendees {
   studentId    String          @unique
   session      TutoringSession @relation(fields: [sessionId], references: [sessionId])
 
-  @@id([sessionId, studentId]) // Composite primary key
+  @@id([sessionId, studentId])
 }
 
 model SessionInsights {
   sessionId       String          @id
   studentInsights String
   tutorInsights   String
+  topic           String
   session         TutoringSession @relation(fields: [sessionId], references: [sessionId])
 }
 
