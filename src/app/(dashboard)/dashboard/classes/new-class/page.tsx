@@ -4,12 +4,13 @@ import { Button } from "@/components/ui/button";
 
 import prisma from "@/lib/db";
 
-export default function NewClassPage() {
+export default async function NewClassPage() {
   async function createClass(
     className: string,
     classSection: number,
     tutoringGuidelines: string
   ) {
+    "use server";
     //  Class_Name String
     // Class_Section Int
     // Tutoring_Guideline String

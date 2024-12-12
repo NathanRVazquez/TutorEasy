@@ -19,12 +19,13 @@ import { CalendarDays, Users, BookOpen, AlertTriangle } from "lucide-react";
 import { motion } from "framer-motion";
 
 type Params = {
-  params: {
+  params: Promise<{
     classId: string;
-  };
+  }>;
 };
 
-const ClassPage = async ({ params }: Params) => {
+const ClassPage = async (props: Params) => {
+  const params = await props.params;
   // get class id from query paramaters
   const classId = params.classId;
   console.log(classId);
