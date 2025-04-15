@@ -12,7 +12,7 @@ WORKDIR /app
 COPY package.json .
 
 RUN npm install react@18.2.0 react-dom@18.2.0 --save-exact
-
+ 
 # shell command
 RUN npm install
 
